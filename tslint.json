@@ -1,0 +1,10 @@
+{
+    "extends": "tslint:latest",
+    "rules": {
+        "cyclomatic-complexity": true,
+        "max-classes-per-file": 3,
+        "no-console": false,
+        "only-arrow-functions": false,
+        "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"]
+    }
+}
