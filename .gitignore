@@ -1,3 +1,5 @@
+lib
+
 # Logs
 logs
 *.log
@@ -58,3 +60,5 @@ typings/
 .env
 
 .idea
+
+.lib
