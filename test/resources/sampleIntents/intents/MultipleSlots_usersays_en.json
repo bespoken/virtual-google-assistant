@@ -1,0 +1,72 @@
+[
+  {
+    "id": "4357736e-2634-4bff-8882-be6b0a44197c",
+    "data": [
+      {
+        "text": "multiple ",
+        "userDefined": false
+      },
+      {
+        "text": "valueA",
+        "alias": "SlotA",
+        "meta": "@SLOT_TYPE",
+        "userDefined": true
+      },
+      {
+        "text": " and ",
+        "userDefined": false
+      },
+      {
+        "text": "valueB",
+        "alias": "SlotB",
+        "meta": "@SLOT_TYPE",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1509058203
+  },
+  {
+    "id": "15ac80b1-9a0a-4b13-8aa5-d93f4ffef5ef",
+    "data": [
+      {
+        "text": "reversed ",
+        "userDefined": false
+      },
+      {
+        "text": "valueB",
+        "alias": "SlotB",
+        "meta": "@SLOT_TYPE",
+        "userDefined": true
+      },
+      {
+        "text": " then ",
+        "userDefined": false
+      },
+      {
+        "text": "valueA",
+        "alias": "SlotA",
+        "meta": "@SLOT_TYPE",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1509058203
+  },
+  {
+    "id": "e9c7b14f-92b6-403d-ac55-c4af990d47ba",
+    "data": [
+      {
+        "text": "valueA",
+        "alias": "SlotA",
+        "meta": "@SLOT_TYPE",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1509058203
+  }
+]
