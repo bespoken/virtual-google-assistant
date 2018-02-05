@@ -1,0 +1,20 @@
+[
+  {
+    "id": "4698ffa2-41e2-44a3-91e7-7070b3a1f97c",
+    "data": [
+      {
+        "text": "slot ",
+        "userDefined": false
+      },
+      {
+        "text": "something",
+        "alias": "SlotName",
+        "meta": "@SLOT_TYPE",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1509058203
+  }
+]
