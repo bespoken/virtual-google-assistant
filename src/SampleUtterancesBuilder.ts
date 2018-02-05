@@ -8,12 +8,12 @@ const AGENT_JSON = "agent.json";
 export class SampleUtterancesBuilder {
     public static fromFolder(folder: string): SampleUtterances {
         const intentFolder = path.join(folder, INTENT_FOLDER);
-        if (fs.exists(path.join(folder, AGENT_JSON))) {
-            throw new Error("Missing agent.json, please verify your providing the correct folder");
+        if (!fs.existsSync(path.join(folder, AGENT_JSON))) {
+            throw new Error("Missing agent.json, please verify you are providing the correct folder");
         }
 
-        if (fs.exists(intentFolder)) {
-            throw new Error("Missing the intents folder, please verify your providing the correct folder");
+        if (!fs.existsSync(intentFolder)) {
+            throw new Error("Missing the intents folder, please verify you are providing the correct folder");
         }
 
         const fileList = fs.readdirSync(intentFolder);
