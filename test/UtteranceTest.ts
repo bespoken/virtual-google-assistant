@@ -1,15 +1,12 @@
-import {SampleUtterances, SlotTypes, Utterance} from "virtual-core";
-
+import {IModel, SampleUtterances, Utterance} from "virtual-core";
 import {assert} from "chai";
-import {IntentSchema} from "../src/IntentSchema";
-import {InteractionModel} from "../src/InteractionModel";
 import {SampleUtterancesBuilder} from "../src/SampleUtterancesBuilder";
 
 describe("UtteranceTest", function() {
     this.timeout(10000);
 
     // TODO: enable the other tests once model is up
-    const model: InteractionModel = null;
+    const model: IModel = null;
 
     describe.only("Build from folder", () => {
        it ("Builds from folder", () => {
