@@ -29,7 +29,7 @@ export class SampleUtterancesBuilder {
             const intentName = fileName.split("_usersays_")[0];
             const utterances = SampleUtterancesBuilder.extractUtterancesFromFile(folder, fileName);
             utterances.forEach((utterance) => {
-                sampleUtterances.addSample(fileName, utterance);
+                sampleUtterances.addSample(intentName, utterance);
             });
         });
 
@@ -43,7 +43,7 @@ export class SampleUtterancesBuilder {
             return [];
         }
 
-        const utteranceList = jsonData.map((userSpeechDescription: IDialogFlowUtterance) => {
+        return jsonData.map((userSpeechDescription: IDialogFlowUtterance) => {
             return userSpeechDescription.data.reduce((utterance: string, speech: ISpeechDescription) => {
                 if (speech.userDefined) {
                     return `${utterance}{${speech.alias}}`;

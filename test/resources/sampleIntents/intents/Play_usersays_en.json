@@ -1,9 +1,9 @@
 [
   {
-    "id": "5f9a0d4e-3427-4201-aca9-55971fe80814",
+    "id": "9ef93e3b-6dc6-4d4e-9153-555b46184bd4",
     "data": [
       {
-        "text": "I don\u0027t",
+        "text": "play",
         "userDefined": false
       }
     ],
@@ -12,10 +12,10 @@
     "updated": 0
   },
   {
-    "id": "b2682921-3a8c-4652-a6e6-87e897db9b97",
+    "id": "9ef93e3b-6dc6-4d4e-9153-555b46184bd2",
     "data": [
       {
-        "text": "not now",
+        "text": "play next",
         "userDefined": false
       }
     ],
@@ -27,19 +27,7 @@
     "id": "9ef93e3b-6dc6-4d4e-9153-555b46184bd1",
     "data": [
       {
-        "text": "no way",
-        "userDefined": false
-      }
-    ],
-    "isTemplate": false,
-    "count": 0,
-    "updated": 0
-  },
-  {
-    "id": "dfc5afe9-4732-4ab6-b96d-33f2343fb5ea",
-    "data": [
-      {
-        "text": "no",
+        "text": "play now",
         "userDefined": false
       }
     ],
