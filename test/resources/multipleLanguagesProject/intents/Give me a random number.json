@@ -1,27 +1,24 @@
 {
-  "id": "406a0527-d6a9-4926-a06c-909aa3f82c02",
-  "name": "CustomSlot",
+  "id": "f2f51470-339b-4fe3-bee5-17fc643ce9f7",
+  "name": "Give me a random number",
   "auto": true,
   "contexts": [],
   "responses": [
     {
       "resetContexts": false,
+      "action": "RandomNumber",
       "affectedContexts": [],
-      "parameters": [
-        {
-          "id": "9675a99e-f040-42e1-ad02-4dff45ab08ce",
-          "required": false,
-          "dataType": "@COUNTRY_CODE",
-          "name": "country",
-          "value": "country",
-          "isList": false
-        }
-      ],
+      "parameters": [],
       "messages": [
         {
           "type": 0,
+          "lang": "es",
+          "speech": "Tu número aleatorio es 4"
+        },
+        {
+          "type": 0,
           "lang": "en",
-          "speech": []
+          "speech": "Your random number is 4"
         }
       ],
       "defaultResponsePlatforms": {},
@@ -31,7 +28,7 @@
   "priority": 500000,
   "webhookUsed": false,
   "webhookForSlotFilling": false,
-  "lastUpdate": 1517843991,
+  "lastUpdate": 1516120091,
   "fallbackIntent": false,
   "events": []
 }

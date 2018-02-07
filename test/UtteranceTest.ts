@@ -1,18 +1,23 @@
-import {IModel, SampleUtterances, Utterance} from "virtual-core";
+import {IIntentSchema, IModel, SampleUtterances, Utterance} from "virtual-core";
 import {assert} from "chai";
 import {SampleUtterancesBuilder} from "../src/SampleUtterancesBuilder";
+import {IntentSchema} from "../src/IntentSchema";
+import {InteractionModel} from "../src/InteractionModel";
 
 describe("UtteranceTest", function() {
     this.timeout(10000);
 
     // TODO: enable the other tests once model is up
-    const model: IModel = null;
+    const model: IModel = InteractionModel.fromFolder("./test/resources/sampleIntents");
 
-    describe.only("Build from folder", () => {
+    describe("Build from folder", () => {
        it ("Builds from folder", () => {
            const sampleUtterances: SampleUtterances = SampleUtterancesBuilder.fromFolder("./test/resources/sampleIntents");
            assert.equal(sampleUtterances.samplesForIntent("Hello").length, 4);
            assert.equal(sampleUtterances.samplesForIntent("MultipleSlots").length, 3);
+
+           const intentSchema: IIntentSchema = IntentSchema.fromFolder("./test/resources/sampleIntents");
+           assert.equal(intentSchema.intents().length, 7);
 
        })
     });
@@ -36,7 +41,8 @@ describe("UtteranceTest", function() {
             assert.equal(utterance.intent(), "Play");
         });
 
-        it("Matches help", () => {
+        // TODO: Requires adding Built In Help
+        it.skip("Matches help", () => {
             const utterance = new Utterance(model, "help");
             assert.isTrue(utterance.matched());
             assert.equal(utterance.intent(), "AMAZON.HelpIntent");
@@ -76,7 +82,8 @@ describe("UtteranceTest", function() {
             assert.equal(utterance.slotByName("SlotB"), "a");
         });
 
-        it("Matches a phrase with slot with enumerated values", () => {
+        // TODO: Requires including entities
+        it.skip("Matches a phrase with slot with enumerated values", () => {
             const utterance = new Utterance(model, "US");
             assert.isTrue(utterance.matched());
             assert.equal(utterance.intent(), "CustomSlot");
@@ -84,7 +91,7 @@ describe("UtteranceTest", function() {
             assert.equal(utterance.slotByName("country"), "US");
         });
 
-        it("Does not match a phrase with slot with enumerated values", () => {
+        it.skip("Does not match a phrase with slot with enumerated values", () => {
             const utterance = new Utterance(model, "hi");
             assert.isTrue(utterance.matched());
             assert.equal(utterance.intent(), "Hello");

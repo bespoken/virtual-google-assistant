@@ -1,33 +1,25 @@
 import * as fs from "fs";
+import * as path from "path";
 import {IIntentSchema, Intent, IntentSlot} from "virtual-core";
+import {getIntentFolderFiles, INTENT_FOLDER} from "./ProjectFolderUtils";
 
 export class IntentSchema implements IIntentSchema{
-    public static fromFile(file: string): IntentSchema {
-        const data = fs.readFileSync(file);
-        const json = JSON.parse(data.toString());
-        return IntentSchema.fromJSON(json);
+
+    public static fromFolder(folder: string): IntentSchema {
+        const { intentFiles } = getIntentFolderFiles(folder);
+        const intentArray = intentFiles.map((intentFile) => {
+            return IntentSchema.getIntentArrayFromJsonFile(folder, intentFile);
+        });
+
+        return new IntentSchema(intentArray);
     }
 
-    public static fromJSON(schemaJSON: any): IntentSchema {
-        return new IntentSchema(schemaJSON);
-    }
-
-    public constructor(public schemaJSON: any) {
+    public constructor(private intentArray: Intent[]){
 
     }
 
     public intents(): Intent[] {
-        const intentArray: Intent[] = [];
-        for (const intentJSON of this.schemaJSON.intents) {
-            const intent = new Intent(intentJSON.intent);
-            if (intentJSON.slots !== undefined && intentJSON.slots !== null) {
-                for (const slotJSON of intentJSON.slots) {
-                    intent.addSlot(new IntentSlot(slotJSON.name, slotJSON.type));
-                }
-            }
-            intentArray.push(intent);
-        }
-        return intentArray;
+       return this.intentArray;
     }
 
     public intent(intentString: string): Intent {
@@ -44,4 +36,33 @@ export class IntentSchema implements IIntentSchema{
     public hasIntent(intentString: string): boolean {
         return this.intent(intentString) !== null;
     }
+
+    private static getIntentArrayFromJsonFile(folder: string, fileName: string): Intent {
+        const fileData = fs.readFileSync(path.join(folder, INTENT_FOLDER, fileName));
+        const jsonData: IDialogFlowIntent = JSON.parse(fileData.toString());
+        const intentName = fileName.replace(".json", "");
+
+        // Even for intents with multiple languages tests have shown only one response in the JSON.
+        // So we are always taking the first one
+        const parameters = jsonData.responses[0].parameters;
+        const intent = new Intent(intentName);
+        parameters.forEach((parameter) => {
+            const slot = new IntentSlot(parameter.name, parameter.dataType);
+            intent.addSlot(slot);
+        });
+
+        return intent;
+    }
+}
+
+interface IDialogFlowIntent {
+    responses: IDialogFlowResponse[],
+}
+
+interface IDialogFlowResponse {
+    parameters: IDialogFlowParameter[],
+}
+interface IDialogFlowParameter {
+    dataType: string,
+    name: string,
 }

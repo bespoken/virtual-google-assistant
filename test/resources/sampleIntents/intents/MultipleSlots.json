@@ -1,0 +1,45 @@
+{
+  "id": "406a0527-d6a9-4926-a06c-909aa3f82c02",
+  "name": "CustomSlot",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "id": "9675a99e-f040-42e1-ad02-4dff45ab08ce",
+          "required": false,
+          "dataType": "@SLOT_TYPE",
+          "name": "SlotA",
+          "value": "$SlotA",
+          "isList": false
+        },
+        {
+        "id": "9675a99e-f040-42e1-ad02-4dff45ab08ce",
+        "required": false,
+        "dataType": "@SLOT_TYPE",
+        "name": "SlotB",
+        "value": " $SlotB",
+        "isList": false
+        }
+      ],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "speech": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1517843991,
+  "fallbackIntent": false,
+  "events": []
+}

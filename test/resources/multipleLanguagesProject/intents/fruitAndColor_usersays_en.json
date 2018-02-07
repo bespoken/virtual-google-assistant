@@ -1,0 +1,86 @@
+[
+  {
+    "id": "948ba8f2-40d7-4471-a304-eb390c516fb9",
+    "data": [
+      {
+        "text": "i like ",
+        "userDefined": false
+      },
+      {
+        "text": "grapes",
+        "alias": "fruit",
+        "meta": "@fruit",
+        "userDefined": true
+      },
+      {
+        "text": " and ",
+        "userDefined": false
+      },
+      {
+        "text": "yellow",
+        "alias": "color",
+        "meta": "@sys.color",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1517843991
+  },
+  {
+    "id": "b34a7eff-2460-4da3-8cf6-91b79dc27335",
+    "data": [
+      {
+        "text": "i like ",
+        "userDefined": false
+      },
+      {
+        "text": "blue",
+        "alias": "color",
+        "meta": "@sys.color",
+        "userDefined": false
+      },
+      {
+        "text": " and ",
+        "userDefined": false
+      },
+      {
+        "text": "bananas",
+        "alias": "fruit",
+        "meta": "@fruit",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1517843991
+  },
+  {
+    "id": "81c007e8-6c62-4cdb-848b-bf8c5070b22a",
+    "data": [
+      {
+        "text": "i like ",
+        "userDefined": false
+      },
+      {
+        "text": "apples",
+        "alias": "fruit",
+        "meta": "@fruit",
+        "userDefined": true
+      },
+      {
+        "text": " and ",
+        "userDefined": false
+      },
+      {
+        "text": "blue",
+        "alias": "color",
+        "meta": "@sys.color",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1517843991
+  }
+]

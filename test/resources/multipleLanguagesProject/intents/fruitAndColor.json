@@ -1,6 +1,6 @@
 {
   "id": "406a0527-d6a9-4926-a06c-909aa3f82c02",
-  "name": "CustomSlot",
+  "name": "fruitAndColor",
   "auto": true,
   "contexts": [],
   "responses": [
@@ -11,9 +11,16 @@
         {
           "id": "9675a99e-f040-42e1-ad02-4dff45ab08ce",
           "required": false,
-          "dataType": "@COUNTRY_CODE",
-          "name": "country",
-          "value": "country",
+          "dataType": "@sys.color",
+          "name": "color",
+          "value": "$color",
+          "isList": false
+        },
+        {
+          "id": "2802e3da-8596-490f-b1bb-ffbfb0bfc7cf",
+          "dataType": "@fruit",
+          "name": "fruit",
+          "value": "$fruit",
           "isList": false
         }
       ],

@@ -6,7 +6,7 @@
         "text": "one hundred",
         "alias": "number",
         "meta": "@sys.number",
-        "userDefined": false
+        "userDefined": true
       },
       {
         "text": " test",
@@ -24,7 +24,7 @@
         "text": "one hundred",
         "alias": "number",
         "meta": "@sys.number",
-        "userDefined": false
+        "userDefined": true
       }
     ],
     "isTemplate": false,

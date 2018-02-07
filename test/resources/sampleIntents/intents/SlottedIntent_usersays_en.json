@@ -10,7 +10,7 @@
         "text": "something",
         "alias": "SlotName",
         "meta": "@SLOT_TYPE",
-        "userDefined": false
+        "userDefined": true
       }
     ],
     "isTemplate": false,
