@@ -4,7 +4,7 @@ import * as path from "path";
 export const INTENT_FOLDER = "intents";
 export const AGENT_JSON = "agent.json";
 
-interface IFolderFiles {
+export interface IFolderFiles {
     intentFiles: string[],
     utterancesFiles: string[],
 }
