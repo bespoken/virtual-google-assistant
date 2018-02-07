@@ -1,35 +1,23 @@
 import * as fs from "fs";
 import * as path from "path";
 import {SampleUtterances} from "virtual-core";
-
-const INTENT_FOLDER = "intents";
-const AGENT_JSON = "agent.json";
+import {INTENT_FOLDER, AGENT_JSON, validateProjectFolder, getIntentFolderFiles} from "./ProjectFolderUtils";
 
 export class SampleUtterancesBuilder {
     public static fromFolder(folder: string): SampleUtterances {
         const intentFolder = path.join(folder, INTENT_FOLDER);
-        if (!fs.existsSync(path.join(folder, AGENT_JSON))) {
-            throw new Error("Missing agent.json, please verify you are providing the correct folder");
-        }
 
-        if (!fs.existsSync(intentFolder)) {
-            throw new Error("Missing the intents folder, please verify you are providing the correct folder");
-        }
+        // This will throw an exception on any issue
+        validateProjectFolder(folder);
 
-        const fileList = fs.readdirSync(intentFolder);
-        const intentFiles = fileList.filter((fileName) => {
-            return !fileName.includes("usersays") && fileName.includes(".");
-        });
-        const utterancesFiles = fileList.filter((fileName) => {
-            return fileName.includes("usersays") && fileName.includes(".");
-        });
-
+        const { utterancesFiles } = getIntentFolderFiles(folder);
         const sampleUtterances = new SampleUtterances();
         const jsonUtterancesList = utterancesFiles.forEach(( fileName) => {
             const intentName = fileName.split("_usersays_")[0];
             const utterances = SampleUtterancesBuilder.extractUtterancesFromFile(folder, fileName);
             utterances.forEach((utterance) => {
                 sampleUtterances.addSample(intentName, utterance);
+                console.log("sampleUtterances", sampleUtterances);
             });
         });
 

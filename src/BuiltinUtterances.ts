@@ -6,29 +6,20 @@ export class BuiltinUtterances {
     }
 }
 
-const values = {
-    "AMAZON.CancelIntent": ["cancel", "never mind"],
-    "AMAZON.HelpIntent": ["help", "help me"],
-    "AMAZON.LoopOffIntent": ["loop off"],
-    "AMAZON.LoopOnIntent": ["loop", "loop on", "keep repeating this song"],
-    "AMAZON.MoreIntent": ["more"],
-    "AMAZON.NavigateHomeIntent": ["home", "go home"],
-    "AMAZON.NavigateSettingsIntent": ["settings"],
-    "AMAZON.NextIntent": ["next", "skip", "skip forward"],
-    "AMAZON.NoIntent": ["no", "no thanks"],
-    "AMAZON.PageDownIntent": ["page down"],
-    "AMAZON.PageUpIntent": ["page up"],
-    "AMAZON.PauseIntent": ["pause", "pause that"],
-    "AMAZON.PreviousIntent": ["go back", "previous", "skip back", "back up"],
-    "AMAZON.RepeatIntent": ["repeat", "say that again", "repeat that"],
-    "AMAZON.ResumeIntent": ["resume", "continue", "keep going"],
-    "AMAZON.ScrollDownIntent": ["scroll down"],
-    "AMAZON.ScrollLeftIntent": ["scroll left"],
-    "AMAZON.ScrollRightIntent": ["scroll right"],
-    "AMAZON.ScrollUpIntent": ["scroll up"],
-    "AMAZON.ShuffleOffIntent": ["shuffle off", "stop shuffling", "turn off shuffle"],
-    "AMAZON.ShuffleOnIntent": ["shuffle", "shuffle on", "shuffle the music", "shuffle mode"],
-    "AMAZON.StartOverIntent": ["start over", "restart", "start again"],
-    "AMAZON.StopIntent": ["stop", "off", "shut up"],
-    "AMAZON.YesIntent": ["yes", "yes please", "sure"],
+const values: any = {
+    "Default Welcome Intent": [],
+    "Default Fallback Intent": [
+        "I didn\u0027t get that. Can you say it again?",
+        "I missed what you said. Say it again?",
+        "Sorry, could you say that again?",
+        "Sorry, can you say that again?",
+        "Can you say that again?",
+        "Sorry, I didn\u0027t get that.",
+        "Sorry, what was that?",
+        "One more time?",
+        "What was that?",
+        "Say that again?",
+        "I didn\u0027t get that.",
+        "I missed that."
+    ]
 };

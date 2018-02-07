@@ -1,0 +1,20 @@
+[
+  {
+    "value": "banana",
+    "synonyms": [
+      "banana"
+    ]
+  },
+  {
+    "value": "grape",
+    "synonyms": [
+      "grape"
+    ]
+  },
+  {
+    "value": "apple",
+    "synonyms": [
+      "apple"
+    ]
+  }
+]

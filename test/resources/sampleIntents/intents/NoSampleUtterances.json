@@ -1,0 +1,30 @@
+{
+  "id": "b755f2e5-5002-46a5-9854-5b04d8c0d335",
+  "name": "NoSampleUtterances",
+  "auto": true,
+  "contexts": [
+    "DescriptionState"
+  ],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "speech": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": true,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1509120653,
+  "fallbackIntent": false,
+  "events": []
+}

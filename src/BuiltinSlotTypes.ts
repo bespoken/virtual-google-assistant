@@ -65,6 +65,6 @@ export class NumberSlotType extends BuiltinSlotType {
     }
 
     public constructor() {
-        super("AMAZON.NUMBER", NumberSlotType.LONG_FORM_SLOT_VALUES(), "^[0-9]*$");
+        super("@sys.number", NumberSlotType.LONG_FORM_SLOT_VALUES(), "^[0-9]*$");
     }
 }
