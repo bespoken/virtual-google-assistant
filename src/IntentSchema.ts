@@ -47,7 +47,7 @@ export class IntentSchema implements IIntentSchema{
         const parameters = jsonData.responses[0].parameters;
         const intent = new Intent(intentName);
         parameters.forEach((parameter) => {
-            const slot = new IntentSlot(parameter.name, parameter.dataType);
+            const slot = new IntentSlot(parameter.name, parameter.dataType.replace("@", ""));
             intent.addSlot(slot);
         });
 

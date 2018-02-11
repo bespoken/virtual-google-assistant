@@ -3,8 +3,9 @@ import * as path from "path";
 
 export const INTENT_FOLDER = "intents";
 export const AGENT_JSON = "agent.json";
+export const ENTITIES_FOLDER = "entities";
 
-export interface IFolderFiles {
+export interface IIntentFolderFiles {
     intentFiles: string[],
     utterancesFiles: string[],
 }
@@ -22,7 +23,7 @@ export function validateProjectFolder(folder: string): boolean {
     return true;
 }
 
-export function getIntentFolderFiles(folder: string): IFolderFiles {
+export function getIntentFolderFiles(folder: string): IIntentFolderFiles {
     const intentFolder = path.join(folder, INTENT_FOLDER);
     const fileList = fs.readdirSync(intentFolder);
 
@@ -38,4 +39,26 @@ export function getIntentFolderFiles(folder: string): IFolderFiles {
         utterancesFiles,
     };
 
+}
+
+export interface IEntitiesFolderFiles {
+    entities: string[],
+    entitiesEntries: string[],
+}
+
+export function getEntitiesFolderFiles(folder: string): IEntitiesFolderFiles {
+    const entitiesFolder = path.join(folder, ENTITIES_FOLDER);
+    const fileList = fs.readdirSync(entitiesFolder);
+
+    const entities = fileList.filter((fileName) => {
+        return !fileName.includes("entries");
+    });
+    const entitiesEntries = fileList.filter((fileName) => {
+        return fileName.includes("entries");
+    });
+
+    return {
+        entities,
+        entitiesEntries,
+    };
 }

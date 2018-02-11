@@ -3,6 +3,7 @@ import {BuiltinSlotTypes} from "./BuiltinSlotTypes";
 import {BuiltinUtterances} from "./BuiltinUtterances";
 import {IntentSchema} from "./IntentSchema";
 import {SampleUtterancesBuilder} from "./SampleUtterancesBuilder";
+import {SlotTypesBuilder} from "./SlotTypesBuilder";
 
 /**
  * Parses and interprets an interaction model
@@ -15,9 +16,9 @@ export class InteractionModel implements IModel {
     public static fromFolder(folder: string): InteractionModel {
         const schema = IntentSchema.fromFolder(folder);
         const samples = SampleUtterancesBuilder.fromFolder(folder);
+        const entities = SlotTypesBuilder.fromFolder(folder);
 
-        // TODO: Missing slotTypes generation
-        return new InteractionModel(schema, samples);
+        return new InteractionModel(schema, samples, entities);
     }
 
     public constructor(public intentSchema: IntentSchema,

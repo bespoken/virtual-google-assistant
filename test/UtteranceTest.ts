@@ -7,7 +7,6 @@ import {InteractionModel} from "../src/InteractionModel";
 describe("UtteranceTest", function() {
     this.timeout(10000);
 
-    // TODO: enable the other tests once model is up
     const model: IModel = InteractionModel.fromFolder("./test/resources/sampleIntents");
 
     describe("Build from folder", () => {
@@ -39,13 +38,6 @@ describe("UtteranceTest", function() {
             const utterance = new Utterance(model, "play?");
             assert.isTrue(utterance.matched());
             assert.equal(utterance.intent(), "Play");
-        });
-
-        // TODO: Requires adding Built In Help
-        it.skip("Matches help", () => {
-            const utterance = new Utterance(model, "help");
-            assert.isTrue(utterance.matched());
-            assert.equal(utterance.intent(), "AMAZON.HelpIntent");
         });
 
         it("Matches a slotted phrase", () => {
@@ -82,8 +74,7 @@ describe("UtteranceTest", function() {
             assert.equal(utterance.slotByName("SlotB"), "a");
         });
 
-        // TODO: Requires including entities
-        it.skip("Matches a phrase with slot with enumerated values", () => {
+        it("Matches a phrase with slot with enumerated values", () => {
             const utterance = new Utterance(model, "US");
             assert.isTrue(utterance.matched());
             assert.equal(utterance.intent(), "CustomSlot");
@@ -91,7 +82,7 @@ describe("UtteranceTest", function() {
             assert.equal(utterance.slotByName("country"), "US");
         });
 
-        it.skip("Does not match a phrase with slot with enumerated values", () => {
+        it("Does not match a phrase with slot with enumerated values", () => {
             const utterance = new Utterance(model, "hi");
             assert.isTrue(utterance.matched());
             assert.equal(utterance.intent(), "Hello");
