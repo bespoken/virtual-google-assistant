@@ -1,0 +1,14 @@
+[
+  {
+    "synonyms": ["USA", "America", "US"],
+    "value": "US"
+  },
+  {
+    "synonyms": ["Germany", "DE"],
+    "value": "DE"
+  },
+  {
+    "synonyms": ["England", "Britain", "UK", "United Kingdom", "Great Britain"],
+    "value": "UK"
+  }
+]

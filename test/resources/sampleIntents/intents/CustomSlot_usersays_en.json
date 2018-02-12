@@ -1,0 +1,16 @@
+[
+  {
+    "id": "4698ffa2-41e2-44a3-91e7-7070b3a1f97c",
+    "data": [
+      {
+        "text": "America",
+        "alias": "country",
+        "meta": "@COUNTRY_CODE",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1509058203
+  }
+]

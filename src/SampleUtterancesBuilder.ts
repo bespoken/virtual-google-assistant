@@ -17,7 +17,6 @@ export class SampleUtterancesBuilder {
             const utterances = SampleUtterancesBuilder.extractUtterancesFromFile(folder, fileName);
             utterances.forEach((utterance) => {
                 sampleUtterances.addSample(intentName, utterance);
-                console.log("sampleUtterances", sampleUtterances);
             });
         });
 
