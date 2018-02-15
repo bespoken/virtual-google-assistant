@@ -1,0 +1,150 @@
+{
+  "originalRequest": {
+    "source": "google",
+    "version": "2",
+    "data": {
+      "isInSandbox": true,
+      "surface": {
+        "capabilities": [
+          {
+            "name": "actions.capability.SCREEN_OUTPUT"
+          },
+          {
+            "name": "actions.capability.AUDIO_OUTPUT"
+          },
+          {
+            "name": "actions.capability.WEB_BROWSER"
+          },
+          {
+            "name": "actions.capability.MEDIA_RESPONSE_AUDIO"
+          }
+        ]
+      },
+      "inputs": [
+        {
+          "rawInputs": [
+            {
+              "query": "yes",
+              "inputType": "VOICE"
+            }
+          ],
+          "arguments": [
+            {
+              "rawText": "yes",
+              "textValue": "yes",
+              "name": "text"
+            }
+          ],
+          "intent": "actions.intent.TEXT"
+        }
+      ],
+      "user": {
+        "locale": "en-US",
+        "userId": "ABwppHGPTE5K1k9zKNO3UmrwJTptMQtTdv5aOjTVwtOi1s8K-uw10KM7zcVR-l6B95Gl_JWGSpY6Oj8vFpui"
+      },
+      "conversation": {
+        "conversationId": "1518537462114",
+        "type": "ACTIVE",
+        "conversationToken": "[\"defaultwelcomeintent-followup\",\"descriptionstate\",\"session\"]"
+      },
+      "availableSurfaces": [
+        {
+          "capabilities": [
+            {
+              "name": "actions.capability.SCREEN_OUTPUT"
+            },
+            {
+              "name": "actions.capability.AUDIO_OUTPUT"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "id": "f4b1ba46-04ff-4a78-bf02-eb2bd1077351",
+  "timestamp": "2018-02-13T15:58:07.314Z",
+  "lang": "en-us",
+  "result": {
+    "source": "agent",
+    "resolvedQuery": "yes",
+    "speech": "",
+    "action": "",
+    "actionIncomplete": false,
+    "parameters": {},
+    "contexts": [
+      {
+        "name": "descriptionstate",
+        "parameters": {
+          "number": "22",
+          "number.original": "22"
+        },
+        "lifespan": 4
+      },
+      {
+        "name": "actions_capability_screen_output",
+        "parameters": {},
+        "lifespan": 0
+      },
+      {
+        "name": "session",
+        "parameters": {
+          "pokemonImg": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/22.png",
+          "STATE": "DescriptionState",
+          "pokemonNo": "22"
+        },
+        "lifespan": 9999
+      },
+      {
+        "name": "actions_capability_audio_output",
+        "parameters": {},
+        "lifespan": 0
+      },
+      {
+        "name": "google_assistant_input_type_voice",
+        "parameters": {},
+        "lifespan": 0
+      },
+      {
+        "name": "defaultwelcomeintent-followup",
+        "parameters": {
+          "number": "22",
+          "number.original": "22"
+        },
+        "lifespan": 0
+      },
+      {
+        "name": "actions_capability_web_browser",
+        "parameters": {},
+        "lifespan": 0
+      },
+      {
+        "name": "actions_capability_media_response_audio",
+        "parameters": {},
+        "lifespan": 0
+      }
+    ],
+    "metadata": {
+      "intentId": "fb8261f7-f6e5-456d-a5f2-a4ee6af51bee",
+      "webhookUsed": "true",
+      "webhookForSlotFillingUsed": "false",
+      "nluResponseTime": 20,
+      "intentName": "YesIntent"
+    },
+    "fulfillment": {
+      "speech": "",
+      "messages": [
+        {
+          "type": 0,
+          "speech": ""
+        }
+      ]
+    },
+    "score": 1
+  },
+  "status": {
+    "code": 200,
+    "errorType": "success",
+    "webhookTimedOut": false
+  },
+  "sessionId": "1518537462114"
+}
