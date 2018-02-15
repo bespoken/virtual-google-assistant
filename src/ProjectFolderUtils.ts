@@ -48,6 +48,14 @@ export interface IEntitiesFolderFiles {
 
 export function getEntitiesFolderFiles(folder: string): IEntitiesFolderFiles {
     const entitiesFolder = path.join(folder, ENTITIES_FOLDER);
+
+    if (!fs.exists(entitiesFolder)) {
+        return {
+            entities: [],
+            entitiesEntries: [],
+        };
+    }
+
     const fileList = fs.readdirSync(entitiesFolder);
 
     const entities = fileList.filter((fileName) => {
