@@ -49,7 +49,7 @@ export interface IEntitiesFolderFiles {
 export function getEntitiesFolderFiles(folder: string): IEntitiesFolderFiles {
     const entitiesFolder = path.join(folder, ENTITIES_FOLDER);
 
-    if (!fs.exists(entitiesFolder)) {
+    if (!fs.existsSync(entitiesFolder)) {
         return {
             entities: [],
             entitiesEntries: [],
