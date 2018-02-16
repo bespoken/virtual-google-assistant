@@ -7,15 +7,15 @@ import {InteractionModel} from "../src/InteractionModel";
 describe("UtteranceTest", function() {
     this.timeout(10000);
 
-    const model: IModel = InteractionModel.fromFolder("./test/resources/sampleIntents");
+    const model: IModel = InteractionModel.fromDirectory("./test/resources/sampleIntents");
 
-    describe("Build from folder", () => {
-       it ("Builds from folder", () => {
-           const sampleUtterances: SampleUtterances = SampleUtterancesBuilder.fromFolder("./test/resources/sampleIntents");
+    describe("Build from directory", () => {
+       it ("Builds from directory", () => {
+           const sampleUtterances: SampleUtterances = SampleUtterancesBuilder.fromDirectory("./test/resources/sampleIntents");
            assert.equal(sampleUtterances.samplesForIntent("Hello").length, 4);
            assert.equal(sampleUtterances.samplesForIntent("MultipleSlots").length, 3);
 
-           const intentSchema: IIntentSchema = IntentSchema.fromFolder("./test/resources/sampleIntents");
+           const intentSchema: IIntentSchema = IntentSchema.fromDirectory("./test/resources/sampleIntents");
            assert.equal(intentSchema.intents().length, 7);
 
        })

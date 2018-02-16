@@ -7,16 +7,16 @@ import {SlotTypesBuilder} from "./SlotTypesBuilder";
 
 /**
  * Parses and interprets an interaction model
- * Takes in the intents and utterances from the project folder
+ * Takes in the intents and utterances from the project directory
  * Then can take a phrase and create an intentName request based on it
  */
 export class InteractionModel implements IModel {
 
     // Parse the project containing everything for the InteractionModel to work
-    public static fromFolder(folder: string): InteractionModel {
-        const schema = IntentSchema.fromFolder(folder);
-        const samples = SampleUtterancesBuilder.fromFolder(folder);
-        const entities = SlotTypesBuilder.fromFolder(folder);
+    public static fromDirectory(directory: string): InteractionModel {
+        const schema = IntentSchema.fromDirectory(directory);
+        const samples = SampleUtterancesBuilder.fromDirectory(directory);
+        const entities = SlotTypesBuilder.fromDirectory(directory);
 
         return new InteractionModel(schema, samples, entities);
     }

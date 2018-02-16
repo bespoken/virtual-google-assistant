@@ -3,10 +3,11 @@ import {assert} from "chai";
 import {InteractionModel} from "../src/InteractionModel";
 import {ActionRequest} from "../src/ActionRequest";
 import {ActionInteractor} from "../src/ActionInteractor";
+import {VirtualGoogleAssistant} from "../src/VirtualGoogleAssistant";
 
 describe("ActionRequestTest", function() {
     this.timeout(10000);
-    const model: InteractionModel = InteractionModel.fromFolder("./test/resources/sampleProject");
+    const model: InteractionModel = InteractionModel.fromDirectory("./test/resources/sampleProject");
     const requestGenerator: ActionRequest = new ActionRequest(model);
 
     describe("Generates correct intent", () => {
@@ -42,19 +43,24 @@ describe("ActionRequestTest", function() {
         });
 
         it("For a utterance", async () => {
-            const interactor = new ActionInteractor(model);
-            const request = await interactor.spoken("what is the pokemon at 25")
-            assert.equal(request.toJSON().result.metadata.intentName, "PokedexIntent");
+            const virtualGoogle = VirtualGoogleAssistant.Builder()
+                .actionUrl( "https://httpbin.org/post" )
+                .directory("./test/resources/sampleProject")
+                .create();
 
-            assert.deepEqual(request.toJSON().result.metadata.matchedParameters[0],         {
+            const httpBinResponse = await virtualGoogle.utter("what is the pokemon at 25");
+
+            const originalRequestSent = httpBinResponse.json;
+            assert.equal(originalRequestSent.result.metadata.intentName, "PokedexIntent");
+
+            assert.deepEqual(originalRequestSent.result.metadata.matchedParameters[0],         {
                 "dataType": "@sys.number",
                 "name": "number",
                 "value": "$number",
                 "isList": false
             });
 
-            assert.equal(request.toJSON().result.parameters.number, "25");
-
+            assert.equal(originalRequestSent.result.parameters.number, "25");
         });
     });
 });
