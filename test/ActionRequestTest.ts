@@ -42,19 +42,20 @@ describe("ActionRequestTest", function() {
         });
 
         it("For a utterance", async () => {
-            const interactor = new ActionInteractor(model);
-            const request = await interactor.spoken("what is the pokemon at 25")
-            assert.equal(request.toJSON().result.metadata.intentName, "PokedexIntent");
+            const interactor = new ActionInteractor(model, "https://httpbin.org/post");
+            const httpBinResponse = await interactor.spoken("what is the pokemon at 25");
 
-            assert.deepEqual(request.toJSON().result.metadata.matchedParameters[0],         {
+            const originalRequestSent = httpBinResponse.json;
+            assert.equal(originalRequestSent.result.metadata.intentName, "PokedexIntent");
+
+            assert.deepEqual(originalRequestSent.result.metadata.matchedParameters[0],         {
                 "dataType": "@sys.number",
                 "name": "number",
                 "value": "$number",
                 "isList": false
             });
 
-            assert.equal(request.toJSON().result.parameters.number, "25");
-
+            assert.equal(originalRequestSent.result.parameters.number, "25");
         });
     });
 });
