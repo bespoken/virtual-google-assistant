@@ -3,6 +3,7 @@ import {assert} from "chai";
 import {InteractionModel} from "../src/InteractionModel";
 import {ActionRequest} from "../src/ActionRequest";
 import {ActionInteractor} from "../src/ActionInteractor";
+import {VirtualGoogleAssistant} from "../src/VirtualGoogleAssistant";
 
 describe("ActionRequestTest", function() {
     this.timeout(10000);
@@ -42,8 +43,12 @@ describe("ActionRequestTest", function() {
         });
 
         it("For a utterance", async () => {
-            const interactor = new ActionInteractor(model, "https://httpbin.org/post");
-            const httpBinResponse = await interactor.spoken("what is the pokemon at 25");
+            const virtualGoogle = VirtualGoogleAssistant.Builder()
+                .actionUrl( "https://httpbin.org/post" )
+                .directory("./test/resources/sampleProject")
+                .create();
+
+            const httpBinResponse = await virtualGoogle.utter("what is the pokemon at 25");
 
             const originalRequestSent = httpBinResponse.json;
             assert.equal(originalRequestSent.result.metadata.intentName, "PokedexIntent");
