@@ -1,20 +1,20 @@
 import * as fs from "fs";
 import * as path from "path";
 import {SampleUtterances} from "virtual-core";
-import {INTENT_FOLDER, AGENT_JSON, validateProjectFolder, getIntentFolderFiles} from "./ProjectFolderUtils";
+import {INTENT_DIRECTORY, AGENT_JSON, validateProjectDirectory, getIntentDirectoryFiles} from "./ProjectDirectoryUtils";
 
 export class SampleUtterancesBuilder {
-    public static fromFolder(folder: string): SampleUtterances {
-        const intentFolder = path.join(folder, INTENT_FOLDER);
+    public static fromDirectory(directory: string): SampleUtterances {
+        const intentDirectory = path.join(directory, INTENT_DIRECTORY);
 
         // This will throw an exception on any issue
-        validateProjectFolder(folder);
+        validateProjectDirectory(directory);
 
-        const { utterancesFiles } = getIntentFolderFiles(folder);
+        const { utterancesFiles } = getIntentDirectoryFiles(directory);
         const sampleUtterances = new SampleUtterances();
-        const jsonUtterancesList = utterancesFiles.forEach(( fileName) => {
+        const jsonUtterancesList = utterancesFiles.forEach((fileName) => {
             const intentName = fileName.split("_usersays_")[0];
-            const utterances = SampleUtterancesBuilder.extractUtterancesFromFile(folder, fileName);
+            const utterances = SampleUtterancesBuilder.extractUtterancesFromFile(directory, fileName);
             utterances.forEach((utterance) => {
                 sampleUtterances.addSample(intentName, utterance);
             });
@@ -23,8 +23,8 @@ export class SampleUtterancesBuilder {
         return sampleUtterances;
     }
 
-    private static extractUtterancesFromFile(folder: string, fileName: string): string []{
-        const fileData = fs.readFileSync(path.join(folder, INTENT_FOLDER, fileName));
+    private static extractUtterancesFromFile(directory: string, fileName: string): string []{
+        const fileData = fs.readFileSync(path.join(directory, INTENT_DIRECTORY, fileName));
         const jsonData: IDialogFlowUtterance[] = JSON.parse(fileData.toString());
         if (!jsonData || !jsonData.length) {
             return [];

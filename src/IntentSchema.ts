@@ -1,14 +1,14 @@
 import * as fs from "fs";
 import * as path from "path";
 import {IIntentSchema, Intent, IntentSlot} from "virtual-core";
-import {getIntentFolderFiles, INTENT_FOLDER} from "./ProjectFolderUtils";
+import {getIntentDirectoryFiles, INTENT_DIRECTORY} from "./ProjectDirectoryUtils";
 
 export class IntentSchema implements IIntentSchema{
 
-    public static fromFolder(folder: string): IntentSchema {
-        const { intentFiles } = getIntentFolderFiles(folder);
+    public static fromDirectory(directory: string): IntentSchema {
+        const { intentFiles } = getIntentDirectoryFiles(directory);
         const intentArray = intentFiles.map((intentFile) => {
-            return IntentSchema.getIntentArrayFromJsonFile(folder, intentFile);
+            return IntentSchema.getIntentArrayFromJsonFile(directory, intentFile);
         });
 
         return new IntentSchema(intentArray);
@@ -37,8 +37,8 @@ export class IntentSchema implements IIntentSchema{
         return this.intent(intentString) !== null;
     }
 
-    private static getIntentArrayFromJsonFile(folder: string, fileName: string): Intent {
-        const fileData = fs.readFileSync(path.join(folder, INTENT_FOLDER, fileName));
+    private static getIntentArrayFromJsonFile(directory: string, fileName: string): Intent {
+        const fileData = fs.readFileSync(path.join(directory, INTENT_DIRECTORY, fileName));
         const jsonData: IDialogFlowIntent = JSON.parse(fileData.toString());
         const intentName = fileName.replace(".json", "");
 

@@ -7,7 +7,7 @@ import {VirtualGoogleAssistant} from "../src/VirtualGoogleAssistant";
 
 describe("ActionRequestTest", function() {
     this.timeout(10000);
-    const model: InteractionModel = InteractionModel.fromFolder("./test/resources/sampleProject");
+    const model: InteractionModel = InteractionModel.fromDirectory("./test/resources/sampleProject");
     const requestGenerator: ActionRequest = new ActionRequest(model);
 
     describe("Generates correct intent", () => {

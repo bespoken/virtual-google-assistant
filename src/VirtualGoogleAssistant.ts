@@ -35,7 +35,7 @@ export class VirtualGoogleAssistant {
  * Configuration object for VirtualGoogleAssistant.<br>
  * <br>
  * Callers must provide:<br>
- * 1) A folder for the exported DialogFlow Interaction Model Files<br>
+ * 1) A directory for the exported DialogFlow Interaction Model Files<br>
  * 2) A url where the service is running<br>
  * The VirtualGoogleAssistant will interact with an action via HTTP<br>
  * <br>
@@ -76,7 +76,7 @@ export class VirtualGoogleAssistantBuilder {
         if (!this._actionURL) {
             throw new Error("Please provide the url where the action is running");
         }
-        const model = InteractionModel.fromFolder(this._directory);
+        const model = InteractionModel.fromDirectory(this._directory);
 
         const interactor = new ActionInteractor(model, this._actionURL);
 
