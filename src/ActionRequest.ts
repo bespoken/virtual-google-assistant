@@ -97,7 +97,9 @@ export class ActionRequest {
                 originalRequest: {
                     "source": "google",
                     "version": "2",
-                    "data": { },
+                    "data": {
+                        "user": {}
+                    },
                 },
                 id: uuid.v4(),
                 timestamp: timestamp,
