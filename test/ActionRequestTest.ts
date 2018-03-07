@@ -11,6 +11,15 @@ describe("ActionRequestTest", function() {
     const requestGenerator: ActionRequest = new ActionRequest(model);
 
     describe("Generates correct intent", () => {
+        it("For a intent with action", () => {
+            const modelWithAction: InteractionModel = InteractionModel.fromDirectory("./test/resources/multipleLanguagesProject");
+            const requestGenerator: ActionRequest = new ActionRequest(modelWithAction);
+            const request = requestGenerator.intentRequest("Give me a random number");
+
+            assert.equal(request.toJSON().result.action, "RandomNumber");
+            assert.equal(request.toJSON().result.metadata.intentName, "Give me a random number");
+        });
+
         it("For a intent with slots", () => {
             const request = requestGenerator.intentRequest("PokedexIntent").withSlot("number", "22");
             assert.equal(request.toJSON().result.parameters.number, 22);
