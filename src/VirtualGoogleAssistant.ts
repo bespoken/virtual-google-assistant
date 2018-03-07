@@ -28,8 +28,24 @@ export class VirtualGoogleAssistant {
     public utter(utterance: string): Promise<any> {
         return this.interactor.spoken(utterance);
     }
+
+    /*
+    * Set a filter on requests - for manipulating the payload before it is sent
+    * @param {RequestFilter} requestFilter
+    * @returns {VirtualGoogleAssistant}
+    */
+    public filter(requestFilter: RequestFilter): VirtualGoogleAssistant {
+        this.interactor.filter(requestFilter);
+        return this;
+    }
+
+    public resetFilter(): VirtualGoogleAssistant {
+        this.interactor.filter(undefined);
+        return this;
+    }
 }
 
+export type RequestFilter = (request: any) => void;
 
 /**
  * Configuration object for VirtualGoogleAssistant.<br>
