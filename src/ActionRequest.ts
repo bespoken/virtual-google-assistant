@@ -1,6 +1,7 @@
 import * as uuid from "uuid";
 import {InteractionModel} from "./InteractionModel";
 import {IntentSlot} from "virtual-core";
+import {GoogleIntent} from "./IntentSchema";
 
 export class RequestType {
     public static INTENT_REQUEST = "IntentRequest";
@@ -39,7 +40,13 @@ export class ActionRequest {
         this.requestJSON = this.baseRequest(RequestType.INTENT_REQUEST);
         this.requestJSON.result.metadata.intentName = intentName;
 
-        const slots = this.interactionModel.intentSchema.intent(intentName).slots;
+        const intent = this.interactionModel.intentSchema.intent(intentName) as GoogleIntent;
+
+        if (intent.action) {
+            this.requestJSON.result.action = intent.action;
+        }
+
+        const slots = intent.slots;
 
         if (!slots) {
             return this;
@@ -108,7 +115,6 @@ export class ActionRequest {
                     source: "agent",
                     resolvedQuery: "GOOGLE_ASSISTANT_WELCOME",
                     speech: "",
-                    action: "input.welcome",
                     actionIncomplete: false,
                     parameters: {},
                     contexts: [
