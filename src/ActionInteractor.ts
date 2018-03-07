@@ -4,12 +4,15 @@ import * as URL from "url";
 import {ActionRequest} from "./ActionRequest";
 import {InteractionModel} from "./InteractionModel";
 import {Utterance} from "virtual-core";
+import {RequestFilter} from "./VirtualGoogleAssistant";
 
 /**
  * ActionInteractor works with an action via HTTP calls to a URL
  *
  */
 export class ActionInteractor {
+    protected requestFilter: RequestFilter = null;
+
     public constructor(protected interactionModel: InteractionModel, private urlString: string) {
     }
 
@@ -47,8 +50,15 @@ export class ActionInteractor {
         return this.callSkillWithIntent(intentName, slots);
     }
 
+    public filter(requestFilter: RequestFilter): void {
+        this.requestFilter = requestFilter;
+    }
+
     public async callSkill(serviceRequest: ActionRequest): Promise<any>  {
         const requestJSON = serviceRequest.toJSON();
+        if (this.requestFilter) {
+            this.requestFilter(requestJSON);
+        }
 
         return this.invoke(requestJSON);
     }

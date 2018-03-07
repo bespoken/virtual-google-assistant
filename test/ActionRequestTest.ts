@@ -71,5 +71,22 @@ describe("ActionRequestTest", function() {
 
             assert.equal(originalRequestSent.result.parameters.number, "25");
         });
+
+        it("Modify the request before sending it to the action", async () => {
+            const virtualGoogle = VirtualGoogleAssistant.Builder()
+                .actionUrl( "https://httpbin.org/post" )
+                .directory("./test/resources/sampleProject")
+                .create();
+
+            virtualGoogle.filter((request) => {
+                request.result.resolvedQuery = "actions_intent_PERMISSION";
+            });
+
+            const httpBinResponse = await virtualGoogle.utter("what is the pokemon at 25");
+
+            const originalRequestSent = httpBinResponse.json;
+
+            assert.equal(originalRequestSent.result.resolvedQuery, "actions_intent_PERMISSION");
+        });
     });
 });
