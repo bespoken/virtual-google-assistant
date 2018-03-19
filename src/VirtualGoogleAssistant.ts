@@ -1,8 +1,5 @@
-
-
-import {ActionInteractor} from "./ActionInteractor";
+import {ActionInteractor, RequestFilter} from "./ActionInteractor";
 import {InteractionModel} from "./InteractionModel";
-import {directoryExists} from "typedoc/dist/lib/utils";
 
 export class VirtualGoogleAssistant {
     public static Builder(): VirtualGoogleAssistantBuilder {
@@ -34,18 +31,21 @@ export class VirtualGoogleAssistant {
     * @param {RequestFilter} requestFilter
     * @returns {VirtualGoogleAssistant}
     */
-    public filter(requestFilter: RequestFilter): VirtualGoogleAssistant {
-        this.interactor.filter(requestFilter);
+    public addFilter(requestFilter: RequestFilter): VirtualGoogleAssistant {
+        this.interactor.addFilter(requestFilter);
         return this;
     }
 
-    public resetFilter(): VirtualGoogleAssistant {
-        this.interactor.filter(undefined);
+    /*
+    * Remove all added filters
+    *
+    * @returns {VirtualGoogleAssistant}
+    */
+    public resetFilters(): VirtualGoogleAssistant {
+        this.interactor.resetFilters();
         return this;
     }
 }
-
-export type RequestFilter = (request: any) => void;
 
 /**
  * Configuration object for VirtualGoogleAssistant.<br>
@@ -63,7 +63,8 @@ export class VirtualGoogleAssistantBuilder {
     private _directory: string;
     /** @internal */
     private _actionURL: string;
-
+    /** @internal */
+    private _locale: string;
     /**
      * The URL of the action to be tested
      * @param {string} url
@@ -84,6 +85,16 @@ export class VirtualGoogleAssistantBuilder {
         return this;
     }
 
+    /**
+     * The locale that will be sent in all requests,
+     * @param {string} locale
+     * @returns {VirtualGoogleAssistantBuilder}
+     */
+    public locale(locale: string): VirtualGoogleAssistantBuilder {
+        this._locale = locale;
+        return this;
+    }
+
     public create(): VirtualGoogleAssistant {
         if (!this._directory) {
             throw new Error("Please provide the DialogFlow directory");
@@ -92,9 +103,12 @@ export class VirtualGoogleAssistantBuilder {
         if (!this._actionURL) {
             throw new Error("Please provide the url where the action is running");
         }
+
+        const locale = this._locale ? this._locale : "en-us";
+
         const model = InteractionModel.fromDirectory(this._directory);
 
-        const interactor = new ActionInteractor(model, this._actionURL);
+        const interactor = new ActionInteractor(model, locale, this._actionURL);
 
         return new VirtualGoogleAssistant(interactor);
     }

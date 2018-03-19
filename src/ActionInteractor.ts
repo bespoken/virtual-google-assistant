@@ -4,16 +4,15 @@ import * as URL from "url";
 import {ActionRequest} from "./ActionRequest";
 import {InteractionModel} from "./InteractionModel";
 import {Utterance} from "virtual-core";
-import {RequestFilter} from "./VirtualGoogleAssistant";
 
 /**
  * ActionInteractor works with an action via HTTP calls to a URL
  *
  */
 export class ActionInteractor {
-    protected requestFilter: RequestFilter = null;
+    protected requestFilters: RequestFilter[] = [];
 
-    public constructor(protected interactionModel: InteractionModel, private urlString: string) {
+    public constructor(protected interactionModel: InteractionModel, private locale: string, private urlString: string) {
     }
 
     /**
@@ -36,7 +35,7 @@ export class ActionInteractor {
     }
 
     public launched(): Promise<any> {
-        const serviceRequest = new ActionRequest(this.interactionModel);
+        const serviceRequest = new ActionRequest(this.interactionModel, this.locale);
         serviceRequest.launchRequest();
         return this.callSkill(serviceRequest);
     }
@@ -50,14 +49,20 @@ export class ActionInteractor {
         return this.callSkillWithIntent(intentName, slots);
     }
 
-    public filter(requestFilter: RequestFilter): void {
-        this.requestFilter = requestFilter;
+    public addFilter(requestFilter: RequestFilter): void {
+        this.requestFilters.push(requestFilter);
+    }
+
+    public resetFilters(): void {
+        this.requestFilters = [];
     }
 
     public async callSkill(serviceRequest: ActionRequest): Promise<any>  {
         const requestJSON = serviceRequest.toJSON();
-        if (this.requestFilter) {
-            this.requestFilter(requestJSON);
+        if (this.requestFilters.length) {
+            this.requestFilters.forEach((requestFilter: RequestFilter) => {
+                requestFilter(requestJSON);
+            });
         }
 
         return this.invoke(requestJSON);
@@ -114,7 +119,7 @@ export class ActionInteractor {
 
     private async callSkillWithIntent(intentName: string, slots?: any): Promise<any> {
 
-        const serviceRequest = new ActionRequest(this.interactionModel).intentRequest(intentName);
+        const serviceRequest = new ActionRequest(this.interactionModel, this.locale).intentRequest(intentName);
         if (slots !== undefined && slots !== null) {
             for (const slotName of Object.keys(slots)) {
                 serviceRequest.withSlot(slotName, slots[slotName]);
@@ -124,3 +129,5 @@ export class ActionInteractor {
         return this.callSkill(serviceRequest);
     }
 }
+
+export type RequestFilter = (request: any) => void;

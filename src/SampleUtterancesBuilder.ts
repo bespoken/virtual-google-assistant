@@ -32,7 +32,9 @@ export class SampleUtterancesBuilder {
 
         return jsonData.map((userSpeechDescription: IDialogFlowUtterance) => {
             return userSpeechDescription.data.reduce((utterance: string, speech: ISpeechDescription) => {
-                if (speech.userDefined) {
+                // If a slot is userDefined but doesn't have an alias it's an @sys.ignore which is the same as text
+                // for the purpose of matching the intent.
+                if (speech.userDefined && speech.alias) {
                     return `${utterance}{${speech.alias}}`;
                 } else {
                     return `${utterance}${speech.text}`;
