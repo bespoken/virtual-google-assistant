@@ -22,7 +22,7 @@ export class ActionRequest {
 
     private requestJSON: any = null;
     private requestType: string;
-    public constructor(private interactionModel: InteractionModel) {}
+    public constructor(private interactionModel: InteractionModel, private locale: string) {}
 
     /**
      * Generates an intentName request with the specified IntentName
@@ -110,7 +110,7 @@ export class ActionRequest {
                 },
                 id: uuid.v4(),
                 timestamp: timestamp,
-                lang: "en-us",
+                lang: this.locale,
                 result: {
                     source: "agent",
                     resolvedQuery: "GOOGLE_ASSISTANT_WELCOME",

@@ -12,7 +12,7 @@ import {Utterance} from "virtual-core";
 export class ActionInteractor {
     protected requestFilters: RequestFilter[] = [];
 
-    public constructor(protected interactionModel: InteractionModel, private urlString: string) {
+    public constructor(protected interactionModel: InteractionModel, private locale: string, private urlString: string) {
     }
 
     /**
@@ -35,7 +35,7 @@ export class ActionInteractor {
     }
 
     public launched(): Promise<any> {
-        const serviceRequest = new ActionRequest(this.interactionModel);
+        const serviceRequest = new ActionRequest(this.interactionModel, this.locale);
         serviceRequest.launchRequest();
         return this.callSkill(serviceRequest);
     }
@@ -119,7 +119,7 @@ export class ActionInteractor {
 
     private async callSkillWithIntent(intentName: string, slots?: any): Promise<any> {
 
-        const serviceRequest = new ActionRequest(this.interactionModel).intentRequest(intentName);
+        const serviceRequest = new ActionRequest(this.interactionModel, this.locale).intentRequest(intentName);
         if (slots !== undefined && slots !== null) {
             for (const slotName of Object.keys(slots)) {
                 serviceRequest.withSlot(slotName, slots[slotName]);

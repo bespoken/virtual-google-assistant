@@ -8,12 +8,12 @@ import {VirtualGoogleAssistant} from "../src/VirtualGoogleAssistant";
 describe("ActionRequestTest", function() {
     this.timeout(10000);
     const model: InteractionModel = InteractionModel.fromDirectory("./test/resources/sampleProject");
-    const requestGenerator: ActionRequest = new ActionRequest(model);
+    const requestGenerator: ActionRequest = new ActionRequest(model, "en-us");
 
     describe("Generates correct intent", () => {
         it("For a intent with action", () => {
             const modelWithAction: InteractionModel = InteractionModel.fromDirectory("./test/resources/multipleLanguagesProject");
-            const requestGenerator: ActionRequest = new ActionRequest(modelWithAction);
+            const requestGenerator: ActionRequest = new ActionRequest(modelWithAction, "en-us");
             const request = requestGenerator.intentRequest("Give me a random number");
 
             assert.equal(request.toJSON().result.action, "RandomNumber");
@@ -112,6 +112,20 @@ describe("ActionRequestTest", function() {
             const originalRequestSent = httpBinResponse.json;
 
             assert.equal(originalRequestSent.lang, "en-us");
+        });
+
+        it("Sent the request in other locale", async () => {
+            const virtualGoogle = VirtualGoogleAssistant.Builder()
+                .actionUrl( "https://httpbin.org/post" )
+                .directory("./test/resources/sampleProject")
+                .locale("en-UK")
+                .create();
+
+            const httpBinResponse = await virtualGoogle.utter("what is the pokemon at 25");
+
+            const originalRequestSent = httpBinResponse.json;
+
+            assert.equal(originalRequestSent.lang, "en-UK");
         });
     });
 });
