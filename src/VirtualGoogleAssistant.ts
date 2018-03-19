@@ -1,8 +1,5 @@
-
-
-import {ActionInteractor} from "./ActionInteractor";
+import {ActionInteractor, RequestFilter} from "./ActionInteractor";
 import {InteractionModel} from "./InteractionModel";
-import {directoryExists} from "typedoc/dist/lib/utils";
 
 export class VirtualGoogleAssistant {
     public static Builder(): VirtualGoogleAssistantBuilder {
@@ -34,18 +31,21 @@ export class VirtualGoogleAssistant {
     * @param {RequestFilter} requestFilter
     * @returns {VirtualGoogleAssistant}
     */
-    public filter(requestFilter: RequestFilter): VirtualGoogleAssistant {
-        this.interactor.filter(requestFilter);
+    public addFilter(requestFilter: RequestFilter): VirtualGoogleAssistant {
+        this.interactor.addFilter(requestFilter);
         return this;
     }
 
-    public resetFilter(): VirtualGoogleAssistant {
-        this.interactor.filter(undefined);
+    /*
+    * Remove all added filters
+    *
+    * @returns {VirtualGoogleAssistant}
+    */
+    public resetFilters(): VirtualGoogleAssistant {
+        this.interactor.resetFilters();
         return this;
     }
 }
-
-export type RequestFilter = (request: any) => void;
 
 /**
  * Configuration object for VirtualGoogleAssistant.<br>

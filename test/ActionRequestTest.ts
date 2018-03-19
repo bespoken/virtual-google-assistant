@@ -78,8 +78,12 @@ describe("ActionRequestTest", function() {
                 .directory("./test/resources/sampleProject")
                 .create();
 
-            virtualGoogle.filter((request) => {
+            virtualGoogle.addFilter((request) => {
                 request.result.resolvedQuery = "actions_intent_PERMISSION";
+            });
+
+            virtualGoogle.addFilter((request) => {
+                request.lang = "en-UK";
             });
 
             const httpBinResponse = await virtualGoogle.utter("what is the pokemon at 25");
@@ -87,6 +91,27 @@ describe("ActionRequestTest", function() {
             const originalRequestSent = httpBinResponse.json;
 
             assert.equal(originalRequestSent.result.resolvedQuery, "actions_intent_PERMISSION");
+            assert.equal(originalRequestSent.lang, "en-UK");
+
+        });
+
+        it("Reset the filters action", async () => {
+            const virtualGoogle = VirtualGoogleAssistant.Builder()
+                .actionUrl( "https://httpbin.org/post" )
+                .directory("./test/resources/sampleProject")
+                .create();
+
+            virtualGoogle.addFilter((request) => {
+                request.lang = "en-UK";
+            });
+
+            virtualGoogle.resetFilters();
+
+            const httpBinResponse = await virtualGoogle.utter("what is the pokemon at 25");
+
+            const originalRequestSent = httpBinResponse.json;
+
+            assert.equal(originalRequestSent.lang, "en-us");
         });
     });
 });
