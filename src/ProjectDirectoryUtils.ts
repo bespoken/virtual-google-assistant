@@ -41,6 +41,17 @@ export function getIntentDirectoryFiles(directory: string): IIntentDirectoryFile
 
 }
 
+export function getDialogFlowApiVersion(directory: string): string {
+    const agentFile = path.join(directory, AGENT_JSON)
+    if (!fs.existsSync(agentFile)) {
+        throw new Error("Missing agent.json, please verify you are providing the correct directory");
+    }
+    const fileData = fs.readFileSync(agentFile);
+    const jsonData: any = JSON.parse(fileData.toString());
+    if(!jsonData.onePlatformApiVersion) return "v1";
+    return jsonData.onePlatformApiVersion;
+} 
+
 export interface IEntitiesDirectoryFiles {
     entities: string[],
     entitiesEntries: string[],
