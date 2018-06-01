@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import {assert} from "chai";
+import {assert, expect} from "chai";
 import {InteractionModel} from "../src/InteractionModel";
 import {ActionRequest, ActionRequestV1, ActionRequestV2} from "../src/ActionRequest";
 import {ActionInteractor} from "../src/ActionInteractor";
@@ -9,9 +9,16 @@ describe("ActionRequestTest", function() {
     this.timeout(10000);
 
     describe("Generates correct intent", () => {
+
         describe("DialogFlow v1", () => {
             const model: InteractionModel = InteractionModel.fromDirectory("./test/resources/sampleProject");
             const requestGenerator: ActionRequest = new ActionRequestV1(model, "en-us");
+
+            it("For a missing agent", () => {
+                expect(function(){
+                    const modelWithAction: InteractionModel = InteractionModel.fromDirectory("./test/resources/missingAgent");
+                }).to.throw("ENOENT");
+            });
 
             it("For a intent with action", () => {
                 const modelWithAction: InteractionModel = InteractionModel.fromDirectory("./test/resources/multipleLanguagesProject");
@@ -137,7 +144,7 @@ describe("ActionRequestTest", function() {
 
             it("For a intent with slots", () => {
                 const request = requestGenerator.intentRequest("PokedexIntent").withSlot("number", "22");
-                // assert.equal(request.toJSON().queryResult.intent.number, 22);
+                assert.equal(request.toJSON().queryResult.parameters.number, 22);
                 assert.deepEqual(request.toJSON().queryResult.intent.matchedParameters[0], {
                     "dataType": "@sys.number",
                     "name": "number",
