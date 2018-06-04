@@ -4,6 +4,7 @@ import {BuiltinUtterances} from "./BuiltinUtterances";
 import {IntentSchema} from "./IntentSchema";
 import {SampleUtterancesBuilder} from "./SampleUtterancesBuilder";
 import {SlotTypesBuilder} from "./SlotTypesBuilder";
+import {getDialogFlowApiVersion} from "./ProjectDirectoryUtils";
 
 /**
  * Parses and interprets an interaction model
@@ -17,13 +18,15 @@ export class InteractionModel implements IModel {
         const schema = IntentSchema.fromDirectory(directory);
         const samples = SampleUtterancesBuilder.fromDirectory(directory);
         const entities = SlotTypesBuilder.fromDirectory(directory);
-
-        return new InteractionModel(schema, samples, entities);
+        const dialogFlowApiVersion = getDialogFlowApiVersion(directory);
+        return new InteractionModel(schema, samples, entities, dialogFlowApiVersion);
     }
 
     public constructor(public intentSchema: IntentSchema,
                        public sampleUtterances: SampleUtterances,
-                       public slotTypes?: SlotTypes) {
+                       public slotTypes?: SlotTypes,
+                       public dialogFlowApiVersion = "v1"
+                    ) {
         if (!this.slotTypes) {
             this.slotTypes = new SlotTypes([]);
         }

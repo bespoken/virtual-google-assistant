@@ -1,0 +1,70 @@
+[
+  {
+    "id": "4357736e-2634-4bff-8882-be6b0a44197c",
+    "data": [
+      {
+        "text": "give me the pokedex entry for ",
+        "userDefined": false
+      },
+      {
+        "text": "three",
+        "alias": "number",
+        "meta": "@sys.number",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1509058203
+  },
+  {
+    "id": "15ac80b1-9a0a-4b13-8aa5-d93f4ffef5ef",
+    "data": [
+      {
+        "text": "what is the pokemon at ",
+        "userDefined": false
+      },
+      {
+        "text": "seven",
+        "alias": "number",
+        "meta": "@sys.number",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1509058203
+  },
+  {
+    "id": "e9c7b14f-92b6-403d-ac55-c4af990d47ba",
+    "data": [
+      {
+        "text": "give me some info on ",
+        "userDefined": false
+      },
+      {
+        "text": "twenty five",
+        "alias": "number",
+        "meta": "@sys.number",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1509058203
+  },
+  {
+    "id": "4698ffa2-41e2-44a3-91e7-7070b3a1f97e",
+    "data": [
+      {
+        "text": "one hundred",
+        "alias": "number",
+        "meta": "@sys.number",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1509058203
+  }
+]

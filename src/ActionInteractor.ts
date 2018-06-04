@@ -1,7 +1,7 @@
 import * as http from "http";
 import * as https from "https";
 import * as URL from "url";
-import {ActionRequest} from "./ActionRequest";
+import {ActionRequest, ActionRequestV1, ActionRequestV2} from "./ActionRequest";
 import {InteractionModel} from "./InteractionModel";
 import {Utterance} from "virtual-core";
 
@@ -35,7 +35,8 @@ export class ActionInteractor {
     }
 
     public launched(): Promise<any> {
-        const serviceRequest = new ActionRequest(this.interactionModel, this.locale);
+        const ActionRequestVersion = this.interactionModel.dialogFlowApiVersion === "v1"? ActionRequestV1 : ActionRequestV2;
+        const serviceRequest = new ActionRequestVersion(this.interactionModel, this.locale);
         serviceRequest.launchRequest();
         return this.callSkill(serviceRequest);
     }
@@ -118,8 +119,8 @@ export class ActionInteractor {
     }
 
     private async callSkillWithIntent(intentName: string, slots?: any): Promise<any> {
-
-        const serviceRequest = new ActionRequest(this.interactionModel, this.locale).intentRequest(intentName);
+        const ActionRequestVersion = this.interactionModel.dialogFlowApiVersion === "v1"? ActionRequestV1 : ActionRequestV2;
+        const serviceRequest = new ActionRequestVersion(this.interactionModel, this.locale).intentRequest(intentName);
         if (slots !== undefined && slots !== null) {
             for (const slotName of Object.keys(slots)) {
                 serviceRequest.withSlot(slotName, slots[slotName]);
