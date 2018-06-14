@@ -5,13 +5,7 @@ gulp.task("default", ["typedoc"]);
 
 gulp.task("typedoc", function () {
     gulp.src([
-        "src/AudioItem.ts",
-        "src/AudioPlayer.ts",
-        "src/Device.ts",
-        "src/SkillContext.ts",
-        "src/SkillSession.ts",
-        "src/User.ts",
-        "src/VirtualAlexa.ts"
+        "src/VirtualGoogleAssistant.ts"
     ]).pipe(typedoc({
             // TypeScript options (see typescript docs)
             excludePrivate: true,
@@ -21,7 +15,7 @@ gulp.task("typedoc", function () {
             gaID: "UA-99287066-2",
             gaSite: "docs.bespoken.io",
             mode: "file",
-            name: "Bespoken Virtual Alexa",
+            name: "Bespoken Virtual Google Assistant",
             readme: "README.md",
             target: "ES6",
             out: "docs/api",

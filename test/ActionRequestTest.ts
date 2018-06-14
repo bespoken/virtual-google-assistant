@@ -246,4 +246,58 @@ describe("ActionRequestTest", function() {
             });
         });
     });
+
+    describe("VirtualGoogleAssistant Tests Using Custom Function", function() {
+        it("Calls the custom function from a file", async () => {
+            const myFunction = function(request: any, response: any) {
+                response.status(200).send({"speech": "Hello World","displayText": "Hello World Displayed"});
+            };
+
+            const virtualGoogle = VirtualGoogleAssistant.Builder()
+                .handler("test.resources.sampleFirebaseFunction.index.helloWorld")
+                .directory("./test/resources/sampleProject")
+                .create();
+
+            const reply = await virtualGoogle.launch();
+
+            assert.equal(reply.speech, "Hello World");
+            assert.equal(reply.displayText, "Hello World Displayed");
+
+        });
+
+        it("Calls the custom function correctly", async () => {
+            const myFunction = function(request: any, response: any) {
+                response.status(200).send({"speech": "Hello World","displayText": "Hello World Displayed"});
+            };
+
+            const virtualGoogle = VirtualGoogleAssistant.Builder()
+                .handler(myFunction)
+                .directory("./test/resources/sampleProject")
+                .create();
+
+            const reply = await virtualGoogle.launch();
+
+            assert.equal(reply.speech, "Hello World");
+            assert.equal(reply.displayText, "Hello World Displayed");
+
+        });
+
+        it("Throws error correctly", async () => {
+            const myFunction = function(request: any, response: any) {
+                throw Error("I am an error");
+            };
+
+            const virtualGoogle = VirtualGoogleAssistant.Builder()
+                .handler(myFunction)
+                .directory("./test/resources/sampleProject")
+                .create();
+
+            try {
+               await virtualGoogle.launch();
+            } catch (error) {
+                assert.equal(error.message, "I am an error");
+            }
+        });
+    });
+
 });
