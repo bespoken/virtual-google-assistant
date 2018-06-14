@@ -1,4 +1,6 @@
 import {ActionInteractor, RequestFilter} from "./ActionInteractor";
+import {RemoteInteractor} from "./RemoteInteractor";
+import {LocalFunctionInteractor} from "./LocalFunctionInteractor";
 import {InteractionModel} from "./InteractionModel";
 
 export class VirtualGoogleAssistant {
@@ -63,8 +65,10 @@ export class VirtualGoogleAssistantBuilder {
     private _directory: string;
     /** @internal */
     private _actionURL: string;
-    /** @internal */
     private _locale: string;
+    /** @internal */
+    private _handler: string | ((...args: any[]) => void);
+
     /**
      * The URL of the action to be tested
      * @param {string} url
@@ -72,6 +76,19 @@ export class VirtualGoogleAssistantBuilder {
      */
     public actionUrl(url: string): VirtualGoogleAssistantBuilder {
         this._actionURL = url;
+        return this;
+    }
+
+    /**
+     * The name of the handler, or the handler function itself, for a Firebase Function to be called<br>
+     * The name should be in the format "index.handler" where:<br>
+     * `index` is the name of the file - such as index.js<br>
+     * `handler` is the name of the exported function to call on the file<br>
+     * @param {string | Function} handlerName
+     * @returns {VirtualGoogleAssistantBuilder}
+     */
+    public handler(handlerName: string | ((...args: any[]) => void)): VirtualGoogleAssistantBuilder {
+        this._handler = handlerName;
         return this;
     }
 
@@ -95,20 +112,26 @@ export class VirtualGoogleAssistantBuilder {
         return this;
     }
 
+    private getInteractor(model: InteractionModel, locale: string): ActionInteractor {
+        if (this._handler) {
+            return new LocalFunctionInteractor(this._handler, model, locale);
+        } else if (this._actionURL) {
+            return new RemoteInteractor(this._actionURL, model, locale);
+        } else {
+            throw new Error("Either a handler or actionURL must be provided.");
+        }
+    }
+
     public create(): VirtualGoogleAssistant {
         if (!this._directory) {
             throw new Error("Please provide the DialogFlow directory");
-        }
-
-        if (!this._actionURL) {
-            throw new Error("Please provide the url where the action is running");
         }
 
         const locale = this._locale ? this._locale : "en-us";
 
         const model = InteractionModel.fromDirectory(this._directory);
 
-        const interactor = new ActionInteractor(model, locale, this._actionURL);
+        const interactor = this.getInteractor(model, locale);
 
         return new VirtualGoogleAssistant(interactor);
     }
