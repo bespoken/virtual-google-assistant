@@ -98,7 +98,7 @@ Set the path to the file were your server is, along the port that you use.
 ```
 const vga = require("virtual-google-assistant");
 const assistant = vga.VirtualGoogleAssistant.Builder()
-    .expressHandler("index", 3000) // Express server file and port
+    .expressModule("index", 3000) // Express server file and port
     .directory("./dialogFlowFolder") // Path to the Dialog Flow exported model
     .create();
  ```
