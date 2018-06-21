@@ -4,9 +4,7 @@ import * as path from "path";
 import * as URL from "url";
 
 export class Invoker {
-    public static async invokeExpressFile(handler: string, port: number, jsonRequest: any, restOfPath?:string): Promise<any> {
-        const handlerParts = handler.split(".");
-        const fileName = handlerParts.join("/") + ".js";
+    public static async invokeExpressFile(fileName: string, port: number, jsonRequest: any, restOfPath?:string): Promise<any> {
         const fullPath = path.join(process.cwd(), fileName);
 
         // Ensure the cache is removed always to be able to start the server on command
@@ -34,9 +32,16 @@ export class Invoker {
     }
 
     public static invokeHandler(handler: string, jsonRequest: any): Promise<any> {
-        const handlerParts = handler.split(".");
-        const functionName = handlerParts[handlerParts.length - 1];
-        const fileName = handlerParts.slice(0, handlerParts.length - 1).join("/") + ".js";
+        let functionName = "handler";
+        let fileName = handler;
+        // By default, we use handler as the name of the function in the lamba
+        // If the filename does not end with .js, we assume the last part is the function name (e.g., index.handler)
+        if (!handler.endsWith(".js")) {
+            const functionSeparatorIndex = handler.lastIndexOf(".");
+            functionName = handler.substr(functionSeparatorIndex + 1);
+            fileName = handler.substr(0, functionSeparatorIndex);
+            fileName += ".js";
+        }
         const fullPath = path.join(process.cwd(), fileName);
         const handlerModule = require(fullPath);
 

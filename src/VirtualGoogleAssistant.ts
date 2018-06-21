@@ -70,7 +70,7 @@ export class VirtualGoogleAssistantBuilder {
     /** @internal */
     private _handler: string | ((...args: any[]) => void);
     /** @internal */
-    private _expressHandler: string;
+    private _expressModule: string;
     /** @internal */
     private _port: number;
 
@@ -101,12 +101,12 @@ export class VirtualGoogleAssistantBuilder {
      * The name of the handler, or the handler referring to an express server file and the port it's using<br>
      * The name should just include the file name<br>
      * `index` is the name of the file - such as index.js<br>
-     * @param {string} handlerName
+     * @param {string} fileName
      *        {number} port
      * @returns {VirtualGoogleAssistantBuilder}
      */
-    public expressHandler(handlerName: string, port: number): VirtualGoogleAssistantBuilder {
-        this._expressHandler = handlerName;
+    public expressModule(fileName: string, port: number): VirtualGoogleAssistantBuilder {
+        this._expressModule = fileName;
         this._port = port;
         return this;
     }
@@ -132,11 +132,11 @@ export class VirtualGoogleAssistantBuilder {
     }
 
     private getInteractor(model: InteractionModel, locale: string): ActionInteractor {
-        if (this._expressHandler && this._handler) {
-            throw new Error("Use only handler or expressHandler.");
+        if (this._expressModule && this._handler) {
+            throw new Error("Use only handler or expressModule.");
         }
-        if (this._expressHandler || this._port) {
-            if (!this._expressHandler) {
+        if (this._expressModule || this._port) {
+            if (!this._expressModule) {
                 throw new Error("Express handler required")
             }
 
@@ -144,7 +144,7 @@ export class VirtualGoogleAssistantBuilder {
                 throw new Error("Port required when using express handler")
             }
 
-            return new ExpressInteractor(this._expressHandler, this._port, model, locale);
+            return new ExpressInteractor(this._expressModule, this._port, model, locale);
         }
         if (this._handler) {
             return new LocalFunctionInteractor(this._handler, model, locale);

@@ -251,12 +251,12 @@ describe("ActionRequestTest", function() {
         it("Calls the custom express with invalid parameters", async () => {
             try {
                 const virtualGoogle = VirtualGoogleAssistant.Builder()
-                    .expressHandler("test.resources.expressProject.index", 3000)
+                    .expressModule("test.resources.expressProject.index", 3000)
                     .handler("test.resources.expressProject.index")
                     .directory("./test/resources/sampleProject")
                     .create();
             } catch (error) {
-                assert.equal(error.message, "Use only handler or expressHandler.");
+                assert.equal(error.message, "Use only handler or expressModule.");
 
             }
         });
@@ -264,7 +264,7 @@ describe("ActionRequestTest", function() {
 
         it("Calls the custom express from a file", async () => {
             const virtualGoogle = VirtualGoogleAssistant.Builder()
-                .expressHandler("test.resources.expressProject.index", 3000)
+                .expressModule("test/resources/expressProject/index", 3000)
                 .directory("./test/resources/sampleProject")
                 .create();
 
@@ -276,7 +276,7 @@ describe("ActionRequestTest", function() {
 
         it("Calls the custom express from a file twice with no port conflict", async () => {
             const virtualGoogle = VirtualGoogleAssistant.Builder()
-                .expressHandler("test.resources.expressProject.index", 3000)
+                .expressModule("test/resources/expressProject/index", 3000)
                 .directory("./test/resources/sampleProject")
                 .create();
 
@@ -290,12 +290,12 @@ describe("ActionRequestTest", function() {
         // With current implementation this case fails, since the port is occupied,
         it.skip("Calls the custom express from a file twice with two instances in parallel", async () => {
             const virtualGoogle1 = VirtualGoogleAssistant.Builder()
-                .expressHandler("test.resources.expressProject.index", 3000)
+                .expressModule("test/resources/expressProject/index", 3000)
                 .directory("./test/resources/sampleProject")
                 .create();
 
             const virtualGoogle2 = VirtualGoogleAssistant.Builder()
-                .expressHandler("test.resources.expressProject.index", 3000)
+                .expressModule("test/resources/expressProject/index", 3000)
                 .directory("./test/resources/sampleProject")
                 .create();
 
@@ -311,7 +311,7 @@ describe("ActionRequestTest", function() {
     describe("VirtualGoogleAssistant Tests Using Custom Function", function() {
         it("Calls the custom function from a file", async () => {
             const virtualGoogle = VirtualGoogleAssistant.Builder()
-                .handler("test.resources.sampleFirebaseFunction.index.helloWorld")
+                .handler("test/resources/sampleFirebaseFunction/index.helloWorld")
                 .directory("./test/resources/sampleProject")
                 .create();
 
