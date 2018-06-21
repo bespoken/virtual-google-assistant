@@ -247,12 +247,69 @@ describe("ActionRequestTest", function() {
         });
     });
 
+    describe("VirtualGoogleAssistant Tests Using Express", function() {
+        it("Calls the custom express with invalid parameters", async () => {
+            try {
+                const virtualGoogle = VirtualGoogleAssistant.Builder()
+                    .expressHandler("test.resources.expressProject.index", 3000)
+                    .handler("test.resources.expressProject.index")
+                    .directory("./test/resources/sampleProject")
+                    .create();
+            } catch (error) {
+                assert.equal(error.message, "Use only handler or expressHandler.");
+
+            }
+        });
+
+
+        it("Calls the custom express from a file", async () => {
+            const virtualGoogle = VirtualGoogleAssistant.Builder()
+                .expressHandler("test.resources.expressProject.index", 3000)
+                .directory("./test/resources/sampleProject")
+                .create();
+
+            const reply = await virtualGoogle.launch();
+
+            assert.equal(reply.speech, "Hello World");
+            assert.equal(reply.displayText, "Hello World Displayed");
+        });
+
+        it("Calls the custom express from a file twice with no port conflict", async () => {
+            const virtualGoogle = VirtualGoogleAssistant.Builder()
+                .expressHandler("test.resources.expressProject.index", 3000)
+                .directory("./test/resources/sampleProject")
+                .create();
+
+            const reply1 = await virtualGoogle.launch();
+            const reply2 = await virtualGoogle.launch();
+
+            assert.equal(reply1.speech, "Hello World");
+            assert.equal(reply2.displayText, "Hello World Displayed");
+        });
+
+        // With current implementation this case fails, since the port is occupied,
+        it.skip("Calls the custom express from a file twice with two instances in parallel", async () => {
+            const virtualGoogle1 = VirtualGoogleAssistant.Builder()
+                .expressHandler("test.resources.expressProject.index", 3000)
+                .directory("./test/resources/sampleProject")
+                .create();
+
+            const virtualGoogle2 = VirtualGoogleAssistant.Builder()
+                .expressHandler("test.resources.expressProject.index", 3000)
+                .directory("./test/resources/sampleProject")
+                .create();
+
+            const launch1 = virtualGoogle1.launch();
+            const launch2 = virtualGoogle2.launch();
+
+            const [reply1, reply2]: any[] = await Promise.all([launch1, launch2]);
+            assert.equal(reply1.speech, "Hello World");
+            assert.equal(reply2.displayText, "Hello World Displayed");
+        });
+    });
+
     describe("VirtualGoogleAssistant Tests Using Custom Function", function() {
         it("Calls the custom function from a file", async () => {
-            const myFunction = function(request: any, response: any) {
-                response.status(200).send({"speech": "Hello World","displayText": "Hello World Displayed"});
-            };
-
             const virtualGoogle = VirtualGoogleAssistant.Builder()
                 .handler("test.resources.sampleFirebaseFunction.index.helloWorld")
                 .directory("./test/resources/sampleProject")
@@ -262,7 +319,6 @@ describe("ActionRequestTest", function() {
 
             assert.equal(reply.speech, "Hello World");
             assert.equal(reply.displayText, "Hello World Displayed");
-
         });
 
         it("Calls the custom function correctly", async () => {
