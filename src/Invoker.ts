@@ -3,8 +3,10 @@ import * as https from "https";
 import * as path from "path";
 import * as URL from "url";
 
+var ProxyAgent = require('proxy-agent'); // no typescript definitions
+
 export class Invoker {
-    public static async invokeExpressFile(fileName: string, port: number, jsonRequest: any, restOfPath?:string): Promise<any> {
+    public static async invokeExpressFile(fileName: string, port: number, jsonRequest: any, restOfPath?: string): Promise<any> {
         const fullPath = path.join(process.cwd(), fileName);
 
         // Ensure the cache is removed always to be able to start the server on command
@@ -83,6 +85,10 @@ export class Invoker {
             path: url.path,
             port: url.port ? parseInt(url.port, 10) : undefined,
         };
+
+        if(process.env.http_proxy){
+            (requestOptions as any).agent = new ProxyAgent(process.env.http_proxy)
+        }
 
         return new Promise((resolve, reject) => {
             const req = httpModule.request(requestOptions, (response: any) => {
