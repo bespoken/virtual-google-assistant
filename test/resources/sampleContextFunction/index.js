@@ -18,21 +18,29 @@ exports.helloWorld = function helloWorld (req, res) {
         // We have context, we change the message
         res.status(200).send({
             speech: newMessage,
-            displayText: newMessage,
+            displayText: newMessage
         });
         return;
     }
 
-    res.status(200).send({
-        speech: "Hello World",
-        displayText: "Hello World Displayed",
-        // V2 version
-        contextOut: [{
-            value: "Simple Context"
-        }],
-        // V1 version
-        context: [{
-            value: "Simple Context"
-        }],
-    });
+    if (req.queryResult) {
+        res.status(200).send({
+            speech: "Hello World",
+            displayText: "Hello World Displayed",
+            // V2 version
+            outputContexts: [{
+                value: "Simple Context"
+            }]
+        });
+    } else {
+        res.status(200).send({
+            speech: "Hello World",
+            displayText: "Hello World Displayed",
+            // V1 version
+            contextOut: [{
+                value: "Simple Context"
+            }]
+        });
+
+    }
 };

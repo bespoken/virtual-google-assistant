@@ -82,14 +82,7 @@ export abstract class ActionInteractor {
 
         const response = await this.invoke(requestJSON);
 
-
-        if (response.contextOut) {
-            // Dialog Flow v1
-            this.context = response.contextOut;
-        } else if (response.outputContexts) {
-            // Dialog Flow v2
-            this.context = response.outputContexts;
-        }
+        this.context = response.contextOut || response.outputContexts;
 
         return response;
     }

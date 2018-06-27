@@ -374,6 +374,23 @@ describe("ActionRequestTest", function() {
             assert.equal(cleanedReply.speech, "Hello World");
         });
 
+        it("Mantains context and then reset context on resetContext", async () => {
+            const virtualGoogle = VirtualGoogleAssistant.Builder()
+                .handler("test/resources/sampleContextFunction/index.helloWorld")
+                .directory("./test/resources/sampleProject")
+                .create();
+
+            const reply = await virtualGoogle.launch();
+            assert.equal(reply.speech, "Hello World");
+            assert.equal(reply.displayText, "Hello World Displayed");
+
+            virtualGoogle.resetContext();
+
+            const replyUsingContext = await virtualGoogle.utter("What is the pokemon at 7");
+            assert.equal(replyUsingContext.speech, "Hello World");
+        });
+
+
         it("mantains context with dialog v2 format", async () => {
             const virtualGoogle = VirtualGoogleAssistant.Builder()
                 .handler("test/resources/sampleContextFunction/index.helloWorld")
