@@ -40,6 +40,16 @@ export class VirtualGoogleAssistant {
     }
 
     /*
+    * Remove all context
+    *
+    * @returns {VirtualGoogleAssistant}
+    */
+    public resetContext(): VirtualGoogleAssistant {
+        this.interactor.resetContext();
+        return this;
+    }
+
+    /*
     * Remove all added filters
     *
     * @returns {VirtualGoogleAssistant}
