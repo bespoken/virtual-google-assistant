@@ -34,6 +34,7 @@
   "dependencies": {
     "@types/uuid": "^3.4.1",
     "lodash": "^4.17.4",
+    "proxy-agent": "^3.0.0",
     "uuid": "^3.1.0",
     "virtual-core": "0.0.11"
   },

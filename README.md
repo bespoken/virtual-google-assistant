@@ -78,6 +78,10 @@ const assistant = vga.VirtualGoogleAssistant.Builder()
     .create();
 ```
 
+### Proxy settings
+
+If you need to use a custom proxy, just set your `HTTP_PROXY` environment variable.
+
 # Against a Google Cloud Function file.
 
 Set the path to the Action on Google code.
