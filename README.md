@@ -122,6 +122,22 @@ assistant.addFilter((requestJSON) => {
 });
 ```
 
+## Removing the Filters
+If the filters are no longer useful, you can remove all filters from the instance by using this method
+```
+assistant.resetFilters();
+```
+
+
+## Context and Removing the Context
+The virtual google assistant instance will keep your context from request to request automatically so that you can test multiturn actions too.
+If you need to force the context removal, you can use the following method
+```
+assistant.removeContext();
+```
+
+
+
 ## How Do I Talk To You?
 Easy, you can open [an issue here](https://github.com/bespoken/virtual-google-assistant/issues), or find us on [our Gitter](https://gitter.im/bespoken/virtual-alexa).
 
