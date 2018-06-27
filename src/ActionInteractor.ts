@@ -8,6 +8,7 @@ import {Utterance} from "virtual-core";
  */
 export abstract class ActionInteractor {
     protected requestFilters: RequestFilter[] = [];
+    protected context: any[] = [];
 
     public constructor(protected interactionModel: InteractionModel, private locale: string) {
     }
@@ -31,11 +32,15 @@ export abstract class ActionInteractor {
         return this.callSkillWithIntent(utterance.intent(), utterance.toJSON());
     }
 
+    public resetContext() {
+        this.context = [];
+    }
+
     public launched(): Promise<any> {
         const ActionRequestVersion = this.interactionModel.dialogFlowApiVersion === "v1"? ActionRequestV1 : ActionRequestV2;
         const serviceRequest = new ActionRequestVersion(this.interactionModel, this.locale);
-        serviceRequest.launchRequest();
-        return this.callSkill(serviceRequest);
+        this.resetContext();
+        return this.callSkill(serviceRequest.launchRequest());
     }
 
     /**
@@ -57,13 +62,36 @@ export abstract class ActionInteractor {
 
     public async callSkill(serviceRequest: ActionRequest): Promise<any>  {
         const requestJSON = serviceRequest.toJSON();
+
+        if (this.context) {
+            if (requestJSON.queryResult) {
+                //DialogFlow v2
+                requestJSON.queryResult.outputContexts = this.context;
+            } else {
+                //DialogFlow v1
+                requestJSON.result.contexts = this.context;
+            }
+        }
+
+
         if (this.requestFilters.length) {
             this.requestFilters.forEach((requestFilter: RequestFilter) => {
                 requestFilter(requestJSON);
             });
         }
 
-        return this.invoke(requestJSON);
+        const response = await this.invoke(requestJSON);
+
+
+        if (response.contextOut) {
+            // Dialog Flow v1
+            this.context = response.contextOut;
+        } else if (response.outputContexts) {
+            // Dialog Flow v2
+            this.context = response.outputContexts;
+        }
+
+        return response;
     }
 
     protected abstract invoke(requestJSON: any): Promise<any>;
