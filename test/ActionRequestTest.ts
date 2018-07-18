@@ -268,10 +268,13 @@ describe("ActionRequestTest", function() {
                 .directory("./test/resources/sampleProject")
                 .create();
 
+            await virtualGoogle.startExpressServer();
             const reply = await virtualGoogle.launch();
 
             assert.equal(reply.speech, "Hello World");
             assert.equal(reply.displayText, "Hello World Displayed");
+
+            await virtualGoogle.stopExpressServer();
         });
 
         it("Calls the custom express from a file twice with no port conflict", async () => {
@@ -280,11 +283,37 @@ describe("ActionRequestTest", function() {
                 .directory("./test/resources/sampleProject")
                 .create();
 
+            await virtualGoogle.startExpressServer();
+
             const reply1 = await virtualGoogle.launch();
             const reply2 = await virtualGoogle.launch();
 
             assert.equal(reply1.speech, "Hello World");
             assert.equal(reply2.displayText, "Hello World Displayed");
+
+            await virtualGoogle.stopExpressServer();
+        });
+
+
+        it("Calls the custom express from a file twice with no port conflict, stopping the server in between", async () => {
+            const virtualGoogle = VirtualGoogleAssistant.Builder()
+                .expressModule("test/resources/expressProject/index", 3000)
+                .directory("./test/resources/sampleProject")
+                .create();
+
+            await virtualGoogle.startExpressServer();
+
+            const reply1 = await virtualGoogle.launch();
+
+            await virtualGoogle.stopExpressServer();
+            await virtualGoogle.startExpressServer();
+
+            const reply2 = await virtualGoogle.launch();
+
+            assert.equal(reply1.speech, "Hello World");
+            assert.equal(reply2.displayText, "Hello World Displayed");
+
+            await virtualGoogle.stopExpressServer();
         });
 
         // With current implementation this case fails, since the port is occupied,
@@ -305,6 +334,23 @@ describe("ActionRequestTest", function() {
             const [reply1, reply2]: any[] = await Promise.all([launch1, launch2]);
             assert.equal(reply1.speech, "Hello World");
             assert.equal(reply2.displayText, "Hello World Displayed");
+        });
+
+        it("Throws error when the express server has not started yet.", async () => {
+            const virtualGoogle = VirtualGoogleAssistant.Builder()
+                .expressModule("test/resources/expressProject/index", 3000)
+                .directory("./test/resources/sampleProject")
+                .create();
+
+            let errorReturned = false;
+            try {
+                await virtualGoogle.launch();
+            } catch (error) {
+                errorReturned = true;
+                assert.equal(error.message, "Express server is not started yet");
+            }
+
+            assert.equal(errorReturned, true);
         });
     });
 
@@ -372,6 +418,26 @@ describe("ActionRequestTest", function() {
 
             const cleanedReply =  await virtualGoogle.launch();
             assert.equal(cleanedReply.speech, "Hello World");
+        });
+
+        it("Mantains context and then reset context on launch using express", async () => {
+            const virtualGoogle = VirtualGoogleAssistant.Builder()
+                .expressModule("test/resources/sampleContextFunction/expressIndex", 3000)
+                .directory("./test/resources/sampleProject")
+                .create();
+            await virtualGoogle.startExpressServer();
+
+            const reply = await virtualGoogle.launch();
+            assert.equal(reply.speech, "Hello World");
+            assert.equal(reply.displayText, "Hello World Displayed");
+
+            const replyUsingContext = await virtualGoogle.utter("What is the pokemon at 7");
+            assert.equal(replyUsingContext.speech, "Simple Context");
+
+            const cleanedReply =  await virtualGoogle.launch();
+            assert.equal(cleanedReply.speech, "Hello World");
+
+            await virtualGoogle.stopExpressServer();
         });
 
         it("Mantains context and then reset context on resetContext", async () => {
