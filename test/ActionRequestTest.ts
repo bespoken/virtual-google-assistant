@@ -261,6 +261,43 @@ describe("ActionRequestTest", function() {
             }
         });
 
+        it("Throws error if server never start", async () => {
+            let errorTriggered = false;
+            try {
+                const virtualGoogle = VirtualGoogleAssistant.Builder()
+                    .expressModule("test/resources/expressNonStartingProject/index", 3000)
+                    .directory("./test/resources/sampleProject")
+                    .create();
+                await virtualGoogle.startExpressServer();
+            } catch (error) {
+                assert.equal(error.message, "Server took to long to start listening.");
+                errorTriggered = true;
+            }
+
+            assert.equal(errorTriggered, true);
+        });
+
+        it("Throws error if server never stop", async () => {
+            let errorTriggered = false;
+            try {
+                const virtualGoogle = VirtualGoogleAssistant.Builder()
+                    .expressModule("test/resources/expressNonStoppingProject/index", 3000)
+                    .directory("./test/resources/sampleProject")
+                    .create();
+                await virtualGoogle.startExpressServer();
+                await virtualGoogle.stopExpressServer();
+            } catch (error) {
+                assert.equal(error.message, "Server took to long to stop.");
+                errorTriggered = true;
+            }
+
+            assert.equal(errorTriggered, true);
+
+            // We need to give some milliseconds for the server to actually close, since we are just manually delaying
+            await new Promise((resolve) => {
+                setTimeout(resolve, 300);
+            });
+        });
 
         it("Calls the custom express from a file", async () => {
             const virtualGoogle = VirtualGoogleAssistant.Builder()

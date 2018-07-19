@@ -17,8 +17,16 @@ export class ExpressServerWrapper {
             throw new Error("The web server needs to be in the module.exports")
         }
 
-        await new Promise(resolve => {
+        await new Promise((resolve, reject) => {
+            let timeout = true;
+            setTimeout(() => {
+                if (timeout) {
+                    reject(new Error("Server took to long to start listening."));
+                }
+            }, 2000);
+
             handlerModule.on("listening", (server: any) => {
+                timeout = false;
                 resolve();
             });
         });
@@ -29,7 +37,19 @@ export class ExpressServerWrapper {
 
     public async stopServer(): Promise<void> {
         //After we process the request, we close the server before sending the next one.
-        await new Promise(resolve => this.handlerModule.close(resolve));
+        await new Promise((resolve, reject) => {
+            let timeout = true;
+            setTimeout(() => {
+                if (timeout) {
+                    reject(new Error("Server took to long to stop."));
+                }
+            }, 2000);
+
+            this.handlerModule.close(() => {
+                timeout = false;
+                resolve();
+            });
+        });
 
         this.serverStarted = false;
     }
