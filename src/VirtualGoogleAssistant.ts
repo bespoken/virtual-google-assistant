@@ -3,6 +3,7 @@ import {RemoteInteractor} from "./RemoteInteractor";
 import {LocalFunctionInteractor} from "./LocalFunctionInteractor";
 import {InteractionModel} from "./InteractionModel";
 import {ExpressInteractor} from "./ExpressInteractor";
+import {ExpressServerWrapper} from "./ExpressServerWrapper";
 
 export class VirtualGoogleAssistant {
     public static Builder(): VirtualGoogleAssistantBuilder {
@@ -13,8 +14,12 @@ export class VirtualGoogleAssistant {
     private interactor: ActionInteractor;
 
     /** @internal */
-    public constructor(interactor: ActionInteractor) {
+    private expressServerWrapper: ExpressServerWrapper;
+
+    /** @internal */
+    public constructor(interactor: ActionInteractor, expressServerWrapper?: ExpressServerWrapper) {
         this.interactor = interactor;
+        this.expressServerWrapper = expressServerWrapper;
     }
 
     public intend(intentName: string, slots?: {[id: string]: string}): Promise<any> {
@@ -57,6 +62,38 @@ export class VirtualGoogleAssistant {
     public resetFilters(): VirtualGoogleAssistant {
         this.interactor.resetFilters();
         return this;
+    }
+
+    /*
+    * Stops an active express server
+    *
+    * @returns {VirtualGoogleAssistant}
+    */
+    public async stopExpressServer(): Promise<void> {
+        if (!this.expressServerWrapper) {
+            throw("This instance is not using express");
+        }
+
+        if (!this.expressServerWrapper.isServerStarted()) {
+            throw("Server not started");
+        }
+        await this.expressServerWrapper.stopServer();
+    }
+
+    /*
+    * Starts express server
+    *
+    * @returns {VirtualGoogleAssistant}
+    */
+    public async startExpressServer(): Promise<void> {
+        if (!this.expressServerWrapper) {
+            throw("This instance is not using express");
+        }
+
+        if (this.expressServerWrapper.isServerStarted()) {
+            throw("Server already started");
+        }
+        await this.expressServerWrapper.startServer();
     }
 }
 
@@ -154,7 +191,8 @@ export class VirtualGoogleAssistantBuilder {
                 throw new Error("Port required when using express handler")
             }
 
-            return new ExpressInteractor(this._expressModule, this._port, model, locale);
+            return new ExpressInteractor(new ExpressServerWrapper(this._expressModule, this._port),
+                this._port, model, locale);
         }
         if (this._handler) {
             return new LocalFunctionInteractor(this._handler, model, locale);
@@ -176,6 +214,10 @@ export class VirtualGoogleAssistantBuilder {
 
         const interactor = this.getInteractor(model, locale);
 
+        // Express properties already validated when creating interactor
+        if (this._expressModule) {
+            return new VirtualGoogleAssistant(interactor, (interactor as ExpressInteractor).getExpressServerWrapper());
+        }
         return new VirtualGoogleAssistant(interactor);
     }
 }

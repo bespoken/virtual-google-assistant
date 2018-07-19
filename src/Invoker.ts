@@ -2,31 +2,20 @@ import * as http from "http";
 import * as https from "https";
 import * as path from "path";
 import * as URL from "url";
+import {ExpressServerWrapper} from "./ExpressServerWrapper";
 
 export class Invoker {
-    public static async invokeExpressFile(fileName: string, port: number, jsonRequest: any, restOfPath?:string): Promise<any> {
-        const fullPath = path.join(process.cwd(), fileName);
+    public static async invokeExpressFile(expressServerWrapper: ExpressServerWrapper,
+                                          port: number,
+                                          jsonRequest: any): Promise<any> {
 
-        // Ensure the cache is removed always to be able to start the server on command
-        delete require.cache[require.resolve(fullPath)];
-        const handlerModule = require(fullPath);
-
-        if (!handlerModule.close) {
-            throw new Error("The web server needs to be in the module.exports")
+        if (!expressServerWrapper.isServerStarted()) {
+            throw new Error("Express server is not started yet");
         }
-
-        await new Promise(resolve => {
-            handlerModule.on("listening", (server: any) => {
-                resolve();
-            });
-        });
 
         const urlString = "http://127.0.0.1:" + port;
 
         const response = await Invoker.invokeWithURLString(urlString, jsonRequest);
-
-        //After we process the request, we close the server before sending the next one.
-        await new Promise(resolve => handlerModule.close(resolve));
 
         return response;
     }

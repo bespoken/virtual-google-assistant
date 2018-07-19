@@ -2,7 +2,7 @@
   "name": "virtual-google-assistant",
   "license": "Apache-2.0",
   "private": false,
-  "version": "0.2.0",
+  "version": "0.2.2",
   "main": "./lib/src/Index.js",
   "typings": "./lib/src/Index.d.ts",
   "engines": {
@@ -27,6 +27,7 @@
     "docs": "gulp --gulpfile docs/gulpfile.js --cwd .",
     "posttest": "nyc report --reporter=json --reporter=html && codecov -f coverage/*.json",
     "pretest": "npm run tsc",
+    "preversion": "npm run tsc",
     "test": "nyc mocha lib/**/*Test.js",
     "tsc": "tsc",
     "typings": "typings install"
@@ -42,8 +43,10 @@
     "@types/lodash": "^4.14.85",
     "@types/mocha": "^2.2.42",
     "@types/node": "^6.0.88",
+    "body-parser": "^1.18.3",
     "chai": "^4.0.4",
     "codecov": "^2.3.0",
+    "express": "^4.16.3",
     "gulp": "^3.9.1",
     "gulp-typedoc": "^2.0.3",
     "mocha": "^3.5.0",
@@ -51,7 +54,6 @@
     "ts-node": "^3.3.0",
     "tslint": "^5.7.0",
     "typedoc": "^0.8.0",
-    "typescript": "^2.5.1",
-    "express": "^4.16.3"
+    "typescript": "^2.5.1"
   }
 }
