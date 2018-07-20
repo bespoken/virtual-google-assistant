@@ -4,6 +4,9 @@ const server = {
     },
     on: function () {
 
+    },
+    listen: function() {
+
     }
 };
 

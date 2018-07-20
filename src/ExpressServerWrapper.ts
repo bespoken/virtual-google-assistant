@@ -25,7 +25,11 @@ export class ExpressServerWrapper {
                         // attempt manual start (this is for cases were require was already called and deleting the
                         // cache don't work for some reason.
                         this.handlerModule = handlerModule.listen(this.expressPort);
+                        if (!this.handlerModule) {
+                            reject(new Error("Server took to long to start listening."));
+                        }
                     } catch (e) {
+                        console.error("Error while attempting to trigger listening: ", e);
                         reject(new Error("Server took to long to start listening."));
                     }
                 }
