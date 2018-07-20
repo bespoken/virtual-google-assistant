@@ -21,7 +21,13 @@ export class ExpressServerWrapper {
             let timeout = true;
             setTimeout(() => {
                 if (timeout) {
-                    reject(new Error("Server took to long to start listening."));
+                    try {
+                        // attempt manual start (this is for cases were require was already called and deleting the
+                        // cache don't work for some reason.
+                        this.handlerModule = handlerModule.listen(this.expressPort);
+                    } catch (e) {
+                        reject(new Error("Server took to long to start listening."));
+                    }
                 }
             }, 2000);
 
