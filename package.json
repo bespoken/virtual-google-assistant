@@ -43,6 +43,7 @@
     "@types/lodash": "^4.14.85",
     "@types/mocha": "^2.2.42",
     "@types/node": "^6.0.88",
+    "actions-on-google": "^2.3.0",
     "body-parser": "^1.18.3",
     "chai": "^4.0.4",
     "codecov": "^2.3.0",

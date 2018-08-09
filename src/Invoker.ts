@@ -37,8 +37,8 @@ export class Invoker {
         return Invoker.invokeFunction(handlerModule[functionName], jsonRequest);
     }
 
-    public static invokeFunction(googleFunction: (...args: any[]) => void, jsonRequest: any): Promise<any> {
-        return new Promise<any>((resolve, reject) => {
+    public static invokeFunction(googleFunction: (...args: any[]) => void | Promise<any>, jsonRequest: any): Promise<any> {
+        return new Promise<any>(async (resolve, reject) => {
             const response = {
                 status: (code: number) => {
                     return response;
@@ -50,7 +50,10 @@ export class Invoker {
             };
 
             try {
-                googleFunction(jsonRequest, response);
+                const googleFunctionResponse = await Promise.resolve(googleFunction(jsonRequest, response));
+                if (googleFunctionResponse) {
+                   response.send(googleFunctionResponse);
+                }
             } catch (error) {
                 reject(error);
             }
