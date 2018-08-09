@@ -421,6 +421,17 @@ describe("ActionRequestTest", function() {
 
         });
 
+        it("Calls the custom function with actions-on-google library from a file", async () => {
+            const virtualGoogle = VirtualGoogleAssistant.Builder()
+                .handler("test/resources/sampleNewVersionFirebaseFunction/index.handler")
+                .directory("./test/resources/sampleProject")
+                .create();
+
+            const reply = await virtualGoogle.intend("PokedexIntent");
+
+            assert.equal(reply.body.data.google.richResponse.items[0].simpleResponse.textToSpeech, "Hello World!");
+        });
+
         it("Throws error correctly", async () => {
             const myFunction = function(request: any, response: any) {
                 throw Error("I am an error");
