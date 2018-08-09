@@ -50,10 +50,9 @@ export class Invoker {
             };
 
             try {
-                const promisifiedResponse = googleFunction(jsonRequest, response);
-                if (promisifiedResponse && promisifiedResponse.then) {
-                   const googleFunctionResponse = await promisifiedResponse;
-                   response.send(promisifiedResponse);
+                const googleFunctionResponse = await Promise.resolve(googleFunction(jsonRequest, response));
+                if (googleFunctionResponse) {
+                   response.send(googleFunctionResponse);
                 }
             } catch (error) {
                 reject(error);
