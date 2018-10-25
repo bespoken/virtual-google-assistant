@@ -16,7 +16,6 @@
       "parameters": [
         {
           "id": "493173d3-069d-46a4-8e85-e55bfb6fccdd",
-          "dataType": "@SLOT_TYPE",
           "name": "SlotName",
           "value": "$SlotName",
           "isList": false
