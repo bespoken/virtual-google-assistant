@@ -44,6 +44,7 @@ describe("UtteranceTest", function() {
             const utterance = new Utterance(model, "slot value");
             assert.isTrue(utterance.matched());
             assert.equal(utterance.intent(), "SlottedIntent");
+
             assert.equal(utterance.slot(0), "value");
             assert.equal(utterance.slotByName("SlotName"), "value");
         });

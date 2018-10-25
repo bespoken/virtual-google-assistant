@@ -48,12 +48,16 @@ export class IntentSchema implements IIntentSchema{
 
         // Even for intents with multiple languages tests have shown only one response in the JSON.
         // So we are always taking the first one
-        const parameters = jsonData.responses[0].parameters;
+        const haveResponseData = jsonData.responses && jsonData.responses.length;
+        const parameters = haveResponseData ? jsonData.responses[0].parameters : [];
         const intent = new GoogleIntent(intentName);
-        intent.action = jsonData.responses[0].action;
+        if (haveResponseData) {
+            intent.action = jsonData.responses[0].action;
+        }
 
         parameters.forEach((parameter) => {
-            const slot = new IntentSlot(parameter.name, parameter.dataType.replace("@", ""));
+            const slotType = parameter.dataType ? parameter.dataType.replace("@", "") : "unknown";
+            const slot = new IntentSlot(parameter.name, slotType);
             intent.addSlot(slot);
         });
 
