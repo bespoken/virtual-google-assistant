@@ -1,5 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
+const _ = require("lodash");
+
 import {IIntentSchema, Intent, IntentSlot} from "virtual-core";
 import {getIntentDirectoryFiles, INTENT_DIRECTORY} from "./ProjectDirectoryUtils";
 
@@ -48,12 +50,9 @@ export class IntentSchema implements IIntentSchema{
 
         // Even for intents with multiple languages tests have shown only one response in the JSON.
         // So we are always taking the first one
-        const haveResponseData = jsonData.responses && jsonData.responses.length;
-        const parameters = haveResponseData ? jsonData.responses[0].parameters : [];
+        const parameters: any[] = _.get(jsonData, "responses[0].parameters", []);
         const intent = new GoogleIntent(intentName);
-        if (haveResponseData) {
-            intent.action = jsonData.responses[0].action;
-        }
+        intent.action= _.get(jsonData, "responses[0].action");
 
         parameters.forEach((parameter) => {
             const slotType = parameter.dataType ? parameter.dataType.replace("@", "") : "unknown";
