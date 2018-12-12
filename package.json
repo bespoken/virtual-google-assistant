@@ -48,6 +48,8 @@
     "chai": "^4.0.4",
     "codecov": "^2.3.0",
     "express": "^4.16.3",
+    "firebase-admin": "^6.3.0",
+    "firebase-functions": "^2.1.0",
     "gulp": "^3.9.1",
     "gulp-typedoc": "^2.0.3",
     "mocha": "^3.5.0",

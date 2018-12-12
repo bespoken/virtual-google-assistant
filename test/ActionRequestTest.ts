@@ -429,7 +429,7 @@ describe("ActionRequestTest", function() {
 
             const reply = await virtualGoogle.intend("PokedexIntent");
 
-            assert.equal(reply.body.data.google.richResponse.items[0].simpleResponse.textToSpeech, "Hello World!");
+            assert.equal(reply.data.google.richResponse.items[0].simpleResponse.textToSpeech, "Hello World!");
         });
 
         it("Throws error correctly", async () => {
@@ -447,6 +447,16 @@ describe("ActionRequestTest", function() {
             } catch (error) {
                 assert.equal(error.message, "I am an error");
             }
+        });
+
+        it("Calls the custom function with actions-on-google and firebase-functions library from a file", async () => {
+            const virtualGoogle = VirtualGoogleAssistant.Builder()
+                .handler("test/resources/firebaseFunctionHttpOnRequest/index.myFunction")
+                .directory("./test/resources/sampleProject")
+                .create();
+
+            const reply = await virtualGoogle.launch();
+            assert.equal(reply.data.google.richResponse.items[0].simpleResponse.textToSpeech, "This is the sample welcome! What would you like?");
         });
     });
     describe("VirtualGoogleAssistant mantains context", function() {

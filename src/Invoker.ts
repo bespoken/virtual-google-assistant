@@ -46,13 +46,20 @@ export class Invoker {
                 send: (payload: any) => {
                     resolve(payload);
                     return response;
-                }
+                },
+                setHeader: () => {},
             };
 
             try {
-                const googleFunctionResponse = await Promise.resolve(googleFunction(jsonRequest, response));
+                const request = {
+                    body: jsonRequest,
+                    get: () => {},
+                    headers: {},
+                };
+                const googleFunctionResponse = await Promise.resolve(googleFunction(request, response));
+
                 if (googleFunctionResponse) {
-                   response.send(googleFunctionResponse);
+                    response.send(googleFunctionResponse);
                 }
             } catch (error) {
                 reject(error);
