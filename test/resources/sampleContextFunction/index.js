@@ -4,7 +4,8 @@
  * @param {Object} req Cloud Function request context.
  * @param {Object} res Cloud Function response context.
  */
-exports.helloWorld = function helloWorld (req, res) {
+exports.helloWorld = function helloWorld (request, res) {
+    const req = request.body;
     var newMessage;
     if (req.result && req.result.contexts && req.result.contexts[0]) {
         newMessage = req.result.contexts[0].value;
