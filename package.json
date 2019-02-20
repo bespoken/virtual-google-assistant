@@ -4,14 +4,13 @@
   "private": false,
   "version": "0.2.6",
   "main": "./lib/src/Index.js",
-  "typings": "./lib/src/Index.d.ts",
+  "types": "./lib/src/Index.d.ts",
   "engines": {
     "node": "> 6.0.0"
   },
   "files": [
     "lib/src/*.js",
-    "lib/src/Index.d.ts",
-    "lib/src/VirtualAlexa.d.ts"
+    "lib/src/*.d.ts"
   ],
   "nyc": {
     "exclude": [
