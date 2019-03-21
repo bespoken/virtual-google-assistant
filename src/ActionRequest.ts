@@ -181,7 +181,7 @@ export class ActionRequestV2 implements ActionRequest {
                     outputContexts: [
                     ],
                     intent: {
-                        name: uuid.v4(),
+                        name: "",
                         webhookState: "true",
                         displayName: "",
                     },
@@ -228,6 +228,7 @@ export class ActionRequestV2 implements ActionRequest {
         }
 
         this.requestJSON = this.baseRequest(RequestType.INTENT_REQUEST);
+        this.requestJSON.queryResult.intent.name = intentName;
         this.requestJSON.queryResult.intent.displayName = intentName;
 
         const intent = this.interactionModel.intentSchema.intent(intentName) as GoogleIntent;
