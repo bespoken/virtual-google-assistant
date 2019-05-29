@@ -25,7 +25,7 @@ export class InteractionModel implements IModel {
     public constructor(public intentSchema: IntentSchema,
                        public sampleUtterances: SampleUtterances,
                        public slotTypes?: SlotTypes,
-                       public dialogFlowApiVersion = "v1"
+                       public dialogFlowApiVersion = "v2"
                     ) {
         if (!this.slotTypes) {
             this.slotTypes = new SlotTypes([]);
