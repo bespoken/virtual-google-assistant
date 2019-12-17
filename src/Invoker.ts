@@ -31,7 +31,7 @@ export class Invoker {
             fileName = handler.substr(0, functionSeparatorIndex);
             fileName += ".js";
         }
-        const fullPath = path.join(process.cwd(), fileName);
+        const fullPath = path.isAbsolute(fileName) ? fileName : path.join(process.cwd(), fileName);
         const handlerModule = require(fullPath);
 
         return Invoker.invokeFunction(handlerModule[functionName], jsonRequest);
