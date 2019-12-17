@@ -2,7 +2,7 @@
   "name": "virtual-google-assistant",
   "license": "Apache-2.0",
   "private": false,
-  "version": "0.2.6",
+  "version": "0.3.4",
   "main": "./lib/src/Index.js",
   "types": "./lib/src/Index.d.ts",
   "engines": {
