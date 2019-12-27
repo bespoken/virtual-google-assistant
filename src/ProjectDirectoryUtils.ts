@@ -24,20 +24,29 @@ export function validateProjectDirectory(directory: string): boolean {
 }
 
 export function getIntentDirectoryFiles(directory: string): IIntentDirectoryFiles {
-    const intentDirectory = path.join(directory, INTENT_DIRECTORY);
-    const fileList = fs.readdirSync(intentDirectory);
+    try {
+        const intentDirectory = path.join(directory, INTENT_DIRECTORY);
+        const fileList = fs.readdirSync(intentDirectory);
 
-    const intentFiles = fileList.filter((fileName) => {
-        return !fileName.includes("usersays") && fileName.includes(".");
-    });
-    const utterancesFiles = fileList.filter((fileName) => {
-        return fileName.includes("usersays") && fileName.includes(".");
-    });
+        const intentFiles = fileList.filter((fileName) => {
+            return !fileName.includes("usersays") && fileName.includes(".");
+        });
+        const utterancesFiles = fileList.filter((fileName) => {
+            return fileName.includes("usersays") && fileName.includes(".");
+        });
 
-    return {
-        intentFiles,
-        utterancesFiles,
-    };
+        return {
+            intentFiles,
+            utterancesFiles,
+        };
+    } catch (e) {
+        if (e.message.includes("ENOENT")) {
+            throw new Error("The interaction model for your Google Action could not be found under:\n" +
+                path.join(directory, INTENT_DIRECTORY) +
+                "\nPlease provide the correct location of the Dialog Flow directory.")
+        }
+        throw e;
+    }
 
 }
 
