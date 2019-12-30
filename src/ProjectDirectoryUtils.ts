@@ -41,7 +41,7 @@ export function getIntentDirectoryFiles(directory: string): IIntentDirectoryFile
         };
     } catch (e) {
         if (e.message.includes("ENOENT")) {
-            throw new Error("The interaction model for your Google Action could not be found under:\n" +
+            throw new Error("The Dialog Flow directory for your Google Action could not be found under:\n" +
                 path.join(directory, INTENT_DIRECTORY) +
                 "\nPlease provide the correct location of the Dialog Flow directory.")
         }
@@ -51,7 +51,7 @@ export function getIntentDirectoryFiles(directory: string): IIntentDirectoryFile
 }
 
 export function getDialogFlowApiVersion(directory: string): string {
-    const agentFile = path.join(directory, AGENT_JSON)
+    const agentFile = path.join(directory, AGENT_JSON);
     if (!fs.existsSync(agentFile)) {
         throw new Error("Missing agent.json, please verify you are providing the correct directory");
     }
