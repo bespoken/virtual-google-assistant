@@ -45,7 +45,7 @@
     "actions-on-google": "^2.3.0",
     "body-parser": "^1.18.3",
     "chai": "^4.0.4",
-    "codecov": "^2.3.0",
+    "codecov": "^3.7.1",
     "express": "^4.16.3",
     "firebase-admin": "^6.3.0",
     "firebase-functions": "^2.1.0",
