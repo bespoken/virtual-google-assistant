@@ -43,7 +43,7 @@ export class Invoker {
                 status: (code: number) => {
                     return response;
                 },
-                send: (payload: any) => {
+                send: (err: Error, payload: any) => {
                     resolve(payload);
                     return response;
                 },
@@ -56,11 +56,8 @@ export class Invoker {
                     get: () => {},
                     headers: {},
                 };
-                const googleFunctionResponse = await Promise.resolve(googleFunction(request, response));
 
-                if (googleFunctionResponse) {
-                    response.send(googleFunctionResponse);
-                }
+                return Promise.resolve(googleFunction(request, response, response.send));
             } catch (error) {
                 reject(error);
             }
