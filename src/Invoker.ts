@@ -49,6 +49,15 @@ export class Invoker {
                 },
                 setHeader: () => {},
             };
+            
+            // for lambda support
+            const callback = (error: Error, result: any) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(result);
+                }
+            };
 
             try {
                 const request = {
@@ -56,10 +65,13 @@ export class Invoker {
                     get: () => {},
                     headers: {},
                 };
-                const googleFunctionResponse = await Promise.resolve(googleFunction(request, response));
-
-                if (googleFunctionResponse) {
-                    response.send(googleFunctionResponse);
+                const promise = googleFunction(request, response, callback);
+                if (promise) {
+                    promise.then((result: any) => {
+                        callback(null, result);
+                    }).catch((error: any) => {
+                        callback(error, null);
+                    });
                 }
             } catch (error) {
                 reject(error);
