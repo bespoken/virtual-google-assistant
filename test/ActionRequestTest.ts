@@ -17,7 +17,7 @@ describe("ActionRequestTest", function() {
             it("For a missing agent", () => {
                 expect(function(){
                     const modelWithAction: InteractionModel = InteractionModel.fromDirectory("./test/resources/missingAgent");
-                }).to.throw("The interaction model for your Google Action could not be");
+                }).to.throw("for your Google Action could not be");
             });
 
             it("For a intent with action", () => {
