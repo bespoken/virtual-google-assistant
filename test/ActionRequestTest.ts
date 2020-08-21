@@ -17,7 +17,7 @@ describe("ActionRequestTest", function() {
             it("For a missing agent", () => {
                 expect(function(){
                     const modelWithAction: InteractionModel = InteractionModel.fromDirectory("./test/resources/missingAgent");
-                }).to.throw("The interaction model for your Google Action could not be");
+                }).to.throw("for your Google Action could not be");
             });
 
             it("For a intent with action", () => {
@@ -534,4 +534,15 @@ describe("ActionRequestTest", function() {
 
     });
 
+    describe("VirtualGoogleAssistant Tests Using Lmabda", function() {
+        it("Calls lambda from a file", async () => {
+            const virtualGoogle = VirtualGoogleAssistant.Builder()
+                .handler("test/resources/lambda/index.handler")
+                .directory("./test/resources/sampleProject")
+                .create();
+
+            const reply = await virtualGoogle.launch();
+            assert.equal(reply.fulfillmentMessages[0].card.title, "card title");
+        });
+    });
 });

@@ -43,11 +43,20 @@ export class Invoker {
                 status: (code: number) => {
                     return response;
                 },
-                send: (err: Error, payload: any) => {
+                send: (payload: any) => {
                     resolve(payload);
                     return response;
                 },
                 setHeader: () => {},
+            };
+            
+            // for lambda support
+            const callback = (error: Error, result: any) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(result);
+                }
             };
 
             try {
@@ -56,8 +65,14 @@ export class Invoker {
                     get: () => {},
                     headers: {},
                 };
-
-                return Promise.resolve(googleFunction(request, response, response.send));
+                const promise = googleFunction(request, response, callback);
+                if (promise) {
+                    promise.then((result: any) => {
+                        callback(null, result);
+                    }).catch((error: any) => {
+                        callback(error, null);
+                    });
+                }
             } catch (error) {
                 reject(error);
             }
